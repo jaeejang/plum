@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.system.DictMapper">
+  <resultMap id="BaseResultMap" type="org.plum.model.system.Dict">
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order" jdbcType="INTEGER" property="order" />
+  </resultMap>
+  <select id="select" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select type, code, name, `order` from sys_dict
+    where type=#{type,jdbcType=VARCHAR}
+    order by `order`
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select type, code, name, `order` from sys_dict
+      order by type,`order`
+  </select>
+  <insert id="insert" parameterType="org.plum.model.system.Dict">
+    insert into sys_dict (type, code, name, order)
+    values (#{type,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{order,jdbcType=INTEGER})
+  </insert>
+</mapper>

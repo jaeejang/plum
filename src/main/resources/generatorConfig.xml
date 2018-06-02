@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">	
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+		<!--plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+			<property name="mappers" value="tk.mybatis.mapper.common.Mapper" />
+			<property name="caseSensitive" value="false" />
+		</plugin-->
+		<commentGenerator>
+			<property name="suppressDate" value="false" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection
+			connectionURL="jdbc:mysql://localhost:3306/plum?serverTimezone=GMT%2B8"
+			driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+		<javaModelGenerator targetPackage="org.plum.model"
+			targetProject="src\main\java" />
+		<sqlMapGenerator targetPackage="org.plum.dao"
+			targetProject="src\main\java" />
+		<javaClientGenerator targetPackage="org.plum.dao"
+			targetProject="src\main\java" type="XMLMAPPER" />
+		<table schema="" tableName="branch" domainObjectName="Branch"
+			enableInsert="true" enableSelectByPrimaryKey="true"
+			enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
+			enableSelectByExample="true" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableCountByExample="false" modelType="flat"
+			delimitIdentifiers="false" delimitAllColumns="false">
+		</table>
+	</context>
+</generatorConfiguration>

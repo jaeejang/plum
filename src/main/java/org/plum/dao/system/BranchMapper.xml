@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.system.BranchMapper">
+  <resultMap id="BaseResultMap" type="org.plum.model.system.Branch">
+    <id column="brchno" jdbcType="VARCHAR" property="brchno" />
+    <result column="brchna" jdbcType="VARCHAR" property="brchna" />
+    <result column="brsmna" jdbcType="VARCHAR" property="brsmna" />
+    <result column="brchup" jdbcType="VARCHAR" property="brchup" />
+    <result column="brchtp" jdbcType="INTEGER" property="brchtp" />
+    <result column="brtype" jdbcType="INTEGER" property="brtype" />
+    <result column="brchlv" jdbcType="INTEGER" property="brchlv" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    brchno, brchna, brsmna, brchup, brchtp, brtype, brchlv
+  </sql>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from branch
+    order by brchlv,brchno
+  </select>
+  
+  <select id="selectRoot" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from branch t
+	   WHERE    
+	    NOT EXISTS(    
+	        SELECT    
+	            1    
+	        FROM    
+	            branch t1,    
+	            branch t2    
+	        WHERE    
+	            t1.brchno= t2.brchup    
+	        AND t1.brchno= t.brchup    
+	    )    
+  </select>
+  <select id="selectChildren" resultMap="BaseResultMap">
+	SELECT    
+	    b.*    
+	FROM    
+	    branch AS a,    
+	    branch AS b    
+	WHERE    
+	    a.brchno= b.brchup    
+	AND (a.brchno= #{brchno} OR a.brchup= #{brchno})   
+  </select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.system.RolefuncMapper">
+  <resultMap id="BaseResultMap" type="org.plum.model.system.Rolefunc">
+    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+    <result column="funcid" jdbcType="INTEGER" property="funcid" />
+  </resultMap>
+  <select id="select" resultType="java.lang.Integer">
+    select funcid from sys_role_func where roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <select id="selectRoleFuncs" resultType="org.plum.model.system.Func" parameterType="org.plum.model.system.Role">
+  	select f.* from sys_role_func rf, sys_func f where f.funid = rf.funcid and rf.roleid = #{roleid,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" parameterType="org.plum.model.system.Rolefunc">
+    insert into sys_role_func (roleid, funcid)
+    values (#{roleid,jdbcType=INTEGER}, #{funcid,jdbcType=INTEGER})
+  </insert>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from sys_role_func where roleid = #{roleid,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

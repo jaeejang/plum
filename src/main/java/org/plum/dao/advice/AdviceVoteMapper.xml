@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.advice.AdviceVoteMapper">
+  <resultMap id="BaseResultMap" type="org.plum.model.advice.AdviceVote">
+    <result column="advice_id" jdbcType="INTEGER" property="adviceId" />
+    <result column="voter" jdbcType="VARCHAR" property="voter" />
+    <result column="vttime" jdbcType="TIMESTAMP" property="vttime" />
+  </resultMap>
+
+  <select id="selectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(*)
+    from advice_vote
+    where advice_id = #{adviceId}
+  </select>
+  <insert id="insert" parameterType="org.plum.model.advice.AdviceVote">
+    insert into advice_vote (advice_id, voter, vttime
+      )
+    values (#{adviceId,jdbcType=INTEGER}, #{voter,jdbcType=VARCHAR}, #{vttime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+</mapper>

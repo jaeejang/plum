@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.system.UserMapper">
+	<resultMap id="BaseResultMap" type="org.plum.model.system.User">
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="fullname" jdbcType="VARCHAR" property="fullname" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="brchno" jdbcType="VARCHAR" property="brchno" />
+		<result column="lock" jdbcType="BIT" property="lock" />
+	</resultMap>
+	<select id="getUser" resultType="org.plum.model.system.User">
+		select username,fullname,password,u.brchno,`lock`,brchna 
+		from sys_user u, branch b 
+		where b.brchno = u.brchno
+		and username = #{username}
+	</select>
+	<select id="selectAllWithPagination" resultMap="BaseResultMap">
+		select username,fullname,password,u.brchno,`lock`,brchna 
+		from sys_user u, branch b 
+		where b.brchno = u.brchno
+		order by brchno,username
+	</select>
+	<insert id="insert" parameterType="org.plum.model.system.User">
+		insert into sys_user
+		(username, fullname, password,brchno, `lock`)
+		values
+		(#{username,jdbcType=VARCHAR},
+		#{fullname,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{brchno,jdbcType=VARCHAR},
+		#{lock,jdbcType=BIT})
+	</insert>
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sys_user where
+		username=#{username}
+	</delete>
+	<update id="update" parameterType="org.plum.model.system.User">
+		update sys_user
+		set
+		fullname=#{fullname},
+		<if test='password!=null and password!=""'>password=#{password},</if>
+		brchno=#{brchno},
+		`lock`=#{lock,jdbcType=BIT}
+		where username=#{username}
+	</update>
+</mapper>
