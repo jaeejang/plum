@@ -1,68 +1,70 @@
 <#include "../include/page.tpl" />
-<@page title="角色管理" js=["plugins/dataTables/datatables.min.js",
-"plugins/dataTables/datatables.global.js",
-"plugins/dataTables/dataTables.select.min.js"]
-css=["plugins/dataTables/datatables.min.css",
-"plugins/dataTables/dataTables.bootstrap.min.css",
-"plugins/dataTables/select.dataTables.min.css"]>
+<@page title="角色管理" js=["plugins/jqGrid/i18n/grid.locale-cn.js",
+"plugins/jqGrid/jquery.jqGrid.min.js",
+"plugins/jqGrid/jqGrid.global.js",
+"plugins/select2/select2.min.js"]
+css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
+"plugins/jqGrid/ui.jqgrid-bootstrap-ui.css",
+"plugins/select2/select2.min.css"]>
 
 <div class="wrapper wrapper-content  animated fadeInRight">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox ">
+				<div class="ibox-title">
+					<h5>角色管理</h5>
+				</div>
 				<div class="ibox-content">
-					<div class="table-responsive">
-						<div><a class="btn btn-primary" href="${base}/role/add">新建角色</a></div>
-						<table id="table_list"
-							class="table table-striped table-bordered table-hover">
-							<thead>
-								<tr>
-									<th>ID</th>
-									<th>名称</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>ID</th>
-									<th>名称</th>
-									<th>操作</th>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
+					    <table id="jqGrid"></table>
+					    <div id="jqGridPager"></div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#table_list').DataTable({
-		serverSide: false,
-		ajax: {
+$(document).ready(function(){
+	$('#jqGrid').jqGrid({
 			url: '${base}/role/list',
-			type: 'GET'
-		},
-        dom: '<"html5buttons"B>lTfgitp',
-		buttons: ['excel','print'],
-		columns: [{
-			data: 'roleid'
-		}, {
-			data: 'rolename'
-		}],
-		columnDefs: [{
-			"targets": 2,
-			"width": 100,
-			"render": function(a, b, c, d) {
-				var html = "<div class=\"btn-group btn-group-xs\" role=\"group\">";
-				html += "<a  class=\"btn btn-link btn-default\" href='${base}/role/edit/" + c.roleid + "'>修改</a>";
-				html += "<a class=\"btn btn-link btn-danger btn\" href='${base}/role/delete/" + c.roleid + "'>删除</a>";
-				html += "</div>";
-				return html;
-			}
-		}]
+			mtype: 'GET',
+			datatype: 'json',
+            colModel: [
+                { label: 'ID', name: 'roleid', key: true },
+                { label: '名称', name: 'rolename',formatter:function(val,opts,row){
+                	return '<a href="${base}/role/edit/'+ row['roleid'] +'" >' + val + ' </a>';
+                }}
+            ],
+            height:320,
+            pager: "#jqGridPager"
 	});
+	
+    $("#jqGrid").navGrid("#jqGridPager",
+            { refresh: true, align: "left", view: false ,add:false,edit:false, del:false,search:false}
+        ).navButtonAdd('#jqGridPager',
+            {
+                buttonicon: "glyphicon-plus",
+                title: "新增",
+                caption: "新增",
+                position: "last",
+                onClickButton: function(){
+                	location.href="${base}/role/add";
+                }
+            }).navButtonAdd('#jqGridPager',
+            {
+                buttonicon: "glyphicon-trash",
+                title: "删除",
+                caption: "删除",
+                position: "last",
+                onClickButton: function(){
+                	
+                }
+            });
 });
+
+function search(){
+    $("#jqGrid").jqGrid('setGridParam',{  
+        datatype:'json'
+    }).trigger("reloadGrid"); 
+}
 </script>
 </@page>

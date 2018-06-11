@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.plum.dao.advice.FileAttachMapper">
+  <resultMap id="BaseResultMap" type="org.plum.model.advice.FileAttach">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="FILENAME" jdbcType="VARCHAR" property="filename" />
+    <result column="PATH" jdbcType="VARCHAR" property="path" />
+    <result column="ATTACHTYPE" jdbcType="INTEGER" property="attachtype" />
+    <result column="SOURCID" jdbcType="INTEGER" property="sourceid" />
+    <result column="FILESIZE" jdbcType="VARCHAR" property="filesize" />
+    <result column="FILETYPE" jdbcType="VARCHAR" property="filetype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, FILENAME, PATH, ATTACHTYPE,SOURCEID,FILESIZE,FILETYPE
+  </sql>
+  <select id="selectByPrimaryKey"  resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from file_attatch
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySource"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from file_attatch
+    where ATTACHTYPE = ${attachtype} and SOURCEID = ${sourceid}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from file_attatch
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.plum.model.advice.FileAttach" useGeneratedKeys="true"  keyProperty="id">
+    insert into file_attatch (ID, FILENAME, PATH, 
+      ATTACHTYPE,SOURCEID,FILESIZE,FILETYPE)
+    values (#{id,jdbcType=INTEGER}, #{filename,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, 
+      #{attachtype,jdbcType=INTEGER},#{sourceid,jdbcType=INTEGER},#{filesize,jdbcType=VARCHAR},
+      #{filetype,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="org.plum.model.advice.FileAttach">
+    update file_attatch
+    set FILENAME = #{filename,jdbcType=VARCHAR},
+      PATH = #{path,jdbcType=VARCHAR},
+      ATTACHTYPE = #{attachtype,jdbcType=INTEGER},
+      SOURCEID = #{sourceID,jdbcType=INTEGER},
+      FILESIZE = #{filesize,jdbcType=VARCHAR},
+      FILETYPE = #{filetype,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

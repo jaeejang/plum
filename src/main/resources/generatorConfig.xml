@@ -15,13 +15,13 @@
 		<jdbcConnection
 			connectionURL="jdbc:mysql://localhost:3306/plum?serverTimezone=GMT%2B8"
 			driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
-		<javaModelGenerator targetPackage="org.plum.model"
+		<javaModelGenerator targetPackage="org.plum.model.advice"
 			targetProject="src\main\java" />
-		<sqlMapGenerator targetPackage="org.plum.dao"
+		<sqlMapGenerator targetPackage="org.plum.dao.advice"
 			targetProject="src\main\java" />
-		<javaClientGenerator targetPackage="org.plum.dao"
+		<javaClientGenerator targetPackage="org.plum.dao.advice"
 			targetProject="src\main\java" type="XMLMAPPER" />
-		<table schema="" tableName="branch" domainObjectName="Branch"
+		<table schema="" tableName="advice_comment" domainObjectName="AdviceComment"
 			enableInsert="true" enableSelectByPrimaryKey="true"
 			enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
 			enableSelectByExample="true" enableUpdateByExample="false"

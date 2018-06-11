@@ -9,13 +9,10 @@ import org.springframework.core.Conventions;
 @SuppressWarnings("serial")
 public class JsonModel extends LinkedHashMap<String, Object>{
 	
-	private JsonModel(){
+	public JsonModel(){
 		super();
 	}
 	
-	public static JsonModel createInstance(){
-		return new JsonModel();
-	}
 	
 	public JsonModel addAttribute(String attributeName, Object attributeValue) {
 		put(attributeName, attributeValue);

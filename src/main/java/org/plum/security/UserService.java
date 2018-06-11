@@ -1,6 +1,9 @@
 package org.plum.security;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
+import java.util.Map;
 
 import org.plum.dao.system.UserMapper;
 import org.plum.model.system.User;
@@ -49,8 +52,14 @@ public class UserService implements UserDetailsService {
 		return userMapper.delete(username);
 	}
 
-	public List<User> selectAllWithPagination() {
-		return userMapper.selectAllWithPagination();
+	public List<User> selectAllWithPagination(Map<String,String[]> params) {
+		try {
+			String keyword = params.get("keyword") != null  ? params.get("keyword")[0] :"";
+			String brchno = params.get("brchno") != null ? params.get("brchno")[0] :"";
+			return userMapper.selectAllWithPagination(brchno, URLDecoder.decode(keyword,"utf-8").trim());
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 
 }

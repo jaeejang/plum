@@ -13,9 +13,9 @@ public @interface Pagination {
 	 * DataTable 客户端传递值
 	 */
 	public final static String PAGE_NO_NAME = "page";
-	public final static String Page_START = "start";
+	public final static String PAGE_START = "start";
 	public final static String PAGE_SIZE_NAME = "length";
-	public final static String Page_DRAW = "draw";
+	public final static String PAGE_DRAW = "draw";
 
 	
 	

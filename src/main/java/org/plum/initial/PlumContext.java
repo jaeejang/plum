@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.plum.dao.system.DictMapper;
 import org.plum.model.system.Dict;
 import org.plum.model.system.Func;
-import org.plum.model.system.FuncExample;
 import org.plum.model.system.Role;
 import org.plum.model.system.User;
 import org.plum.security.SimpleUserDetails;
@@ -31,8 +30,6 @@ public class PlumContext {
 	private TreeNode menuTree = null;
 
 	private static Logger log = LoggerFactory.getLogger(PlumContext.class);
-
-	private TreeNode activeNodes = null;
 
 	private TreeNode leefNode = null;
 
@@ -101,14 +98,6 @@ public class PlumContext {
 	}
 
 	/*
-	 * 获取当前功能链 home - level1 - level2
-	 * 
-	 */
-	public TreeNode getActiveNodes() {
-		return activeNodes;
-	}
-
-	/*
 	 * 获取当前功能
 	 */
 	public TreeNode getLeef() {
@@ -138,9 +127,8 @@ public class PlumContext {
 	 * 初始化菜单树
 	 */
 	private void initialCache() {
-		FuncExample example = new FuncExample();
-		example.setOrderByClause("superid,`order`");
-		PlumCache.CacheFuncs = privailegeService.selectFunc(example);
+		log.debug("init cache funcs");
+		PlumCache.CacheFuncs = privailegeService.selectFuncs();
 	}
 
 	// 递归功能树
@@ -152,7 +140,6 @@ public class PlumContext {
 		}
 		if (node == null) {
 			leefNode = null;
-			activeNodes = null;
 			node = new TreeNode(0, "首页", -1, 0, "/home", "home");
 			node.setPuissant(true);
 			node.setActive(true);
@@ -168,9 +155,7 @@ public class PlumContext {
 					node.setPuissant(true);
 
 					if (request.getRequestURI().startsWith(request.getContextPath() + func.getPath())) {
-
 						leefNode = child;
-						
 						child.setActive(true);
 						active = true;
 					}

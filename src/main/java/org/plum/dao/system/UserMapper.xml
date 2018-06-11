@@ -18,6 +18,12 @@
 		select username,fullname,password,u.brchno,`lock`,brchna 
 		from sys_user u, branch b 
 		where b.brchno = u.brchno
+		<if test="keyword!= null and keyword!=''">
+			and (fullname like '%${keyword}%' or username like '%${keyword}%')
+		</if>
+		<if test="brchno!= null and brchno!=''">
+			and u.brchno = #{brchno}
+		</if>
 		order by brchno,username
 	</select>
 	<insert id="insert" parameterType="org.plum.model.system.User">

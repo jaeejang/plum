@@ -3,9 +3,9 @@
 			<div class="sidebar-collapse">
 				<ul class="nav metismenu " id="side-menu">
 					<li class="nav-header">
-						<div class="profile-element">江南创新平台</div>
+						<div class="profile-element">江南意见建议平台</div>
 						<div class="logo-element">
-							创新
+							建议平台
 						</div>
 					</li>
 					<#if menu?? && menu['children']??>

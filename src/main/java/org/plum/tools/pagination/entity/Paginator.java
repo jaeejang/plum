@@ -1,54 +1,77 @@
 package org.plum.tools.pagination.entity;
 
+import java.util.List;
+
 public class Paginator {
 
-	private int draw;
-	private int offset;
-	private int recordsTotal;
-	private Object data;
+	/*
+	 * total pages for the query
+	 */
+	private int total;
+	/*
+	 * current page of the query
+	 */
+	private int page;
+	/*
+	 * total number of records for the query
+	 */
+	private int records;
+	
+	/*
+	 * an array that contains the actual data
+	 */
+	private List rows;
+	
+	/*
+	 * the unique id of the row
+	 */
+	private String id;
+	
+	/*
+	 * an array that contains the data for a row
+	 */
+	private Object cell;
 
-	public Paginator(Object items) {
-		this.data = items;
+	public Paginator(List rows) {
+		this.rows = rows;
 		Page page = PageContext.get();
-		this.recordsTotal = page.getTotalRows();
-		this.offset = page.getOffset();
-		this.draw = page.getDraw() + 1;
+		this.records = page.getTotalRows();
+		this.total = this.records / page.getPageSize() + 1;
+		this.page = page.getPage_no();
 	}
 
-	public int getDraw() {
-		return draw;
+	public String getId() {
+		return id;
 	}
 
-	public void setDraw(int draw) {
-		this.draw = draw;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public int getOffset() {
-		return offset;
+	public Object getCell() {
+		return cell;
 	}
 
-	public void setOffset(int draw) {
-		this.offset = draw;
+	public void setCell(Object cell) {
+		this.cell = cell;
 	}
 
-	public int getRecordsTotal() {
-		return recordsTotal;
+	public int getTotal() {
+		return total;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public int getRecords() {
+		return records;
+	}
+
+	public List getRows() {
+		return rows;
 	}
 	
-	public int getRecordsFiltered(){
-		return recordsTotal;
-	}
-
-	public void setRecordsTotal(int recordsTotal) {
-		this.recordsTotal = recordsTotal;
-	}
-
-	public Object getData() {
-		return data;
-	}
-
-	public void setData(Object data) {
-		this.data = data;
-	}
+	
 
 }

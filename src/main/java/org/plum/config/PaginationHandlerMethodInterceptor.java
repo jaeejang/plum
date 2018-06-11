@@ -30,13 +30,36 @@ public class PaginationHandlerMethodInterceptor extends HandlerInterceptorAdapte
 			// paging
 			Pagination pagination = handlerMethod.getMethodAnnotation(Pagination.class);
 			if (pagination != null) {
+				/*
 				String size = request.getParameter(Pagination.PAGE_SIZE_NAME);
-				String start = request.getParameter(Pagination.Page_START);
-				String no = request.getParameter(Pagination.Page_DRAW);
+				String start = request.getParameter(Pagination.PAGE_START);
+				String no = request.getParameter(Pagination.PAGE_DRAW);
 				int offset = StringUtils.isEmpty(start) ? Page.DEFAULT_NO : Integer.parseInt(start);
 				int pageSize = StringUtils.isEmpty(size) ? Page.DEFAULT_SZIE : Integer.parseInt(size);
 				int draw = StringUtils.isNumeric(no) ? Integer.parseInt(no) : Page.DEFAULT_NO;
-				Page page = new Page(draw, offset, pageSize);
+				*/
+				
+				int page_no         = StringUtils.isEmpty(request.getParameter(Pagination.PAGE))?
+						Page.DEFAULT_NO:Integer.parseInt(request.getParameter(Pagination.PAGE));
+				int rows         = StringUtils.isEmpty(request.getParameter(Pagination.ROWS))?
+						Page.DEFAULT_SIZE:Integer.parseInt(request.getParameter(Pagination.ROWS));
+
+				int totalrows    = StringUtils.isNumeric(request.getParameter(Pagination.TOTALROWS))?
+						Integer.parseInt(request.getParameter(Pagination.ROWS)) : Page.DEFAULT_SIZE;
+						
+				String sort         = request.getParameter(Pagination.SORT);
+				String order        = request.getParameter(Pagination.ORDER);
+				String search       = request.getParameter(Pagination.SEARCH);
+				String operate      = request.getParameter(Pagination.OPERATE);
+				String nd           = request.getParameter(Pagination.ND);
+				String add_operate  = request.getParameter(Pagination.ADD_OPERATE);
+				String edit_operate = request.getParameter(Pagination.EDIT_OPERATE);
+				String id           = request.getParameter(Pagination.ID);
+				String del_operate  = request.getParameter(Pagination.DEL_OPERATE);
+				String subgrid_id   = request.getParameter(Pagination.SUBGRID_ID);
+				
+				
+				Page page = new Page(page_no, rows, totalrows);
 				PageContext.set(page);
 
 				if (log.isDebugEnabled()) {

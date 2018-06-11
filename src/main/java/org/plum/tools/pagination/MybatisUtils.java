@@ -90,7 +90,7 @@ public class MybatisUtils {
 								+ " of statement " + state.getId());
 					}
 
-					typeHandler.setParameter(stmt, i + 1, value, parameterMapping.getJdbcType());
+					typeHandler.setParameter(stmt, i+1, value, parameterMapping.getJdbcType());
 				}
 			}
 		}

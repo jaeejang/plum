@@ -3,22 +3,22 @@
 <div class="loginColumns animated fadeInDown">
         <div class="row ">
 
-            <div class="col-md-6">
-                <h2 class="font-bold">Welcome to 江南银行创新平台</h2>
+            <div class="col-md-7">
+                <h2 class="font-bold">Welcome to 江南意见建议平台</h2>
                 <p>
                     Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
                 </p>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="ibox-content">
                     <form class="m-t" role="form" action="${base}/login" method="post">
                         <div class="form-group">
                             <input type="text" class="form-control" name="username" placeholder="Username" value="jaee">
                         </div>
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" placeholder="Password" value="minyan">
+                            <input type="password" class="form-control" name="password" placeholder="Password" value="000000">
                         </div>
-                        <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                        <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
 						<!--
 						<a href="login_two_columns.html#">
                             <small>Forgot password?</small>

@@ -1,17 +1,10 @@
 package org.plum.controller.system;
 
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.plum.model.system.Role;
-import org.plum.model.system.RoleExample;
-import org.plum.model.system.User;
 import org.plum.service.PrivilegeService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
-import org.plum.tools.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,8 +36,7 @@ public class RoleController {
 	@RequestMapping("/list")
 	@Pagination
 	public @ResponseBody Paginator getList() {
-		RoleExample example = new RoleExample();
-		return new Paginator(privilegeService.selectRole(example));
+		return new Paginator(privilegeService.selectRoles());
 	}
 
 	@RequestMapping(value = "edit/{roleid}", method = RequestMethod.GET)
@@ -54,12 +46,11 @@ public class RoleController {
 	}
 
 	@RequestMapping(value = "edit*", method = RequestMethod.POST)
-	public String save(@Valid @ModelAttribute("role") Role role, BindingResult result, Model model) {
+	public String save(@ModelAttribute("role") Role role, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
 			privilegeService.saveOrUpdateRole(role);
 			return "redirect:/role";
 		} else {
-			model.addAttribute("validation", ValidationUtil.hashErrors(result.getFieldErrors()));
 			model.addAttribute("role", role);
 		}
 		return "sys/role_edit";

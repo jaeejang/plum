@@ -27,13 +27,13 @@ public class SystemService {
 	}
 	
 	public List<Branch> loadBranch(){
-		//if(PlumCache.CacheBranch == null){
+		if(PlumCache.CacheBranch == null){
 			List<Branch> ups = branchMapper.selectRoot();
 			for (Branch branch : ups) {
 				branch.setChildren(branchMapper.selectChildren(branch.getBrchno()));
 			}
 			PlumCache.CacheBranch = ups;
-		//}
+		}
 		return PlumCache.CacheBranch;
 	}
 }

@@ -9,35 +9,50 @@ import org.apache.ibatis.session.RowBounds;
 public class Page extends RowBounds implements Serializable {
 
 	private static final long serialVersionUID = -3805529090535665155L;
-	public final static int DEFAULT_SZIE = 20;
+	public final static int DEFAULT_SIZE = 20;
 	public final static int DEFAULT_NO = 0;
 	private int totalRows;
 	public final static Page DEFAULT = new Page();
-	private int draw = 0;
-	private int start;
+	private int page_no;
+	private int offset;
 	private int pageSize;
-	
 	
 
 	private Page() {
-		super(0, DEFAULT_SZIE);
+		super(0, DEFAULT_SIZE);
 		this.totalRows = NO_ROW_LIMIT;
 	}
 
-	public Page(int draw, int offset, int pageSize) {
-		super(offset, pageSize);
-		this.draw = draw;
-		this.start = offset;
-		this.pageSize = pageSize;
-		this.totalRows = NO_ROW_LIMIT;
-	}
-
-	public Page(int draw, int offset, int pageSize, int totalRows) {
-		super(offset, pageSize);
-		this.draw = draw;
-		this.start = offset;
+	public Page( int page_no, int pageSize, int totalRows) {
+		super((page_no -1)*pageSize , pageSize);
+		this.offset = (page_no -1)*pageSize;
+		this.page_no = page_no;
 		this.pageSize = pageSize;
 		this.totalRows = totalRows;
+	}
+	
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getPage_no() {
+		return page_no;
+	}
+
+	public void setPage_no(int page_no) {
+		this.page_no = page_no;
 	}
 
 	public int getTotalRows() {
@@ -49,19 +64,19 @@ public class Page extends RowBounds implements Serializable {
 	}
 
 	public boolean isFirstPage() {
-		return start <= 0;
+		return offset <= 0;
 	}
 
 	public boolean isLastPage() {
-		return start + pageSize >= totalRows;
+		return offset + pageSize >= totalRows;
 	}
 
 	public boolean hasPreviousPage() {
-		return start > 0;
+		return offset > 0;
 	}
 
 	public boolean hasNextPage() {
-		return start + pageSize < totalRows;
+		return offset + pageSize < totalRows;
 	}
 
 
@@ -79,9 +94,5 @@ public class Page extends RowBounds implements Serializable {
 
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-
-	public int getDraw() {
-		return draw;
 	}
 }

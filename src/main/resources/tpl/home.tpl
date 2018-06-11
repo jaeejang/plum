@@ -6,15 +6,14 @@
 "plugins/flot/jquery.flot.pie.js"
 "plugins/flot/jquery.flot.time.js"] css=[]>
 
-
-<div id="wrapper-content" class="wrapper wrapper-content">
+<div class="wrapper wrapper-content">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="ibox ">
 				<div class="col-lg-6">
 					<div class="ibox">
 	                    <div class="ibox-title">
-	                        <h5>欢迎进入创新平台</h5>
+	                        <h5>欢迎进入江南意见建议平台</h5>
 	                    </div>
 	                    <div class="ibox-content">
 	                    	<p>
@@ -43,8 +42,6 @@
 
 
 	$(function(){
-		// pjax 
-		  $(document).pjax("a","#wrapper-content");
 		/*
 		var barOptions = {
 			series : {

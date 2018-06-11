@@ -2,17 +2,12 @@ package org.plum.model.advice;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
-
 public class Advice {
     private Integer id;
 
+    boolean anony = false;
 
-	@Size(min = 6, max = 6)
-    private String crtdt;
+	private String crtdt;
 
     private String crtusr;
     
@@ -29,13 +24,10 @@ public class Advice {
     //brchna
     private String upbrchna;
 
-    @NotNull
 	private Integer catalog;
 
-    @Size(min = 10)
     private String summary;
 
-    @NotBlank
     private String leaddep;
     
     //brchna
@@ -43,7 +35,7 @@ public class Advice {
 
     private Date crttime;
 
-    private Integer status;
+    private Integer status = 0;
 
     private Integer polls;
     
@@ -55,10 +47,17 @@ public class Advice {
 
     private String reserve3;
 
-    @Size(min = 10)
     private String content;
     
-    
+
+    public boolean isAnony() {
+		return anony;
+	}
+
+	public void setAnony(boolean anony) {
+		this.anony = anony;
+	}
+
     
     public Integer getPolls() {
 		return polls;

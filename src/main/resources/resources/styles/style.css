@@ -299,7 +299,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 }
 .logo-element {
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: white;
   display: none;
@@ -3389,14 +3389,6 @@ video {
   margin-bottom: 5px;
   /* Only for demo */
   width: 24%;
-}
-/* Summernote text editor  */
-.note-editor {
-  height: auto !important;
-  min-height: 300px;
-}
-.note-editor.fullscreen {
-  z-index: 2050;
 }
 /* MODAL */
 .modal-content {
@@ -8231,3 +8223,19 @@ body.md-skin {
   }
 }
 .button-info{color:#fff !important;background-color:#f0ad4e !important;;border-color:#eea236 !important;}
+
+
+.dropzone {
+	  border: 2px dashed #0087F7;
+	  border-radius: 5px;
+	  background: white;
+}
+.dropzone .dz-message {
+	font-weight: 400;
+}
+.dropzone .dz-message .note {
+	  font-size: 0.8em;
+	  font-weight: 200;
+	  display: block;
+	  margin-top: 1.4rem;
+}

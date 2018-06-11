@@ -16,7 +16,6 @@ js=['plugins/iCheck/icheck.min.js'] >
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#">基本信息</a></li>
 						<li><a href="${base}/role/func/${roleid!}">功能权限</a></li>
-						<li><a href="${base}/role/user/${roleid!}">用户</a></li>
 					</ul>
 					<div class="tab-content ">
 						<div id="tab-1" class="tab-pane active">

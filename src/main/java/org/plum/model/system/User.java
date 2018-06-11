@@ -1,13 +1,10 @@
 package org.plum.model.system;
 
-import javax.validation.constraints.Size;
 
 public class User {
 
-	@Size(min = 3, max = 10)
 	private String username;
 
-	@Size(min = 2, max = 10)
 	private String fullname;
 
 	private String password;

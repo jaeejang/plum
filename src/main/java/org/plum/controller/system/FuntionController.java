@@ -1,13 +1,9 @@
 package org.plum.controller.system;
 
-import javax.validation.Valid;
-
 import org.plum.model.system.Func;
-import org.plum.model.system.FuncExample;
 import org.plum.service.PrivilegeService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
-import org.plum.tools.validation.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,8 +34,7 @@ public class FuntionController {
 	@RequestMapping("/list")
 	@Pagination
 	public @ResponseBody Paginator getList() {
-		FuncExample example = new FuncExample();
-		return new Paginator(privilegeService.selectFunc(example));
+		return new Paginator(privilegeService.selectFuncs());
 	}
 
 	@RequestMapping(value="edit/{funid}", method = RequestMethod.GET)
@@ -49,14 +44,13 @@ public class FuntionController {
 	}
 
 	@RequestMapping(value="edit*", method = RequestMethod.POST)
-	public String save(@Valid @ModelAttribute("func") Func func, 
+	public String save(@ModelAttribute("func") Func func, 
 			BindingResult result, Model model) {
 		if (!result.hasErrors()){
 			privilegeService.saveOrUpdateFunc(func);
 			return "redirect:/func";
 		}
 		else{
-			model.addAttribute("validation", ValidationUtil.hashErrors(result.getFieldErrors()));
 			model.addAttribute("func",func);
 		}
 		return "sys/func_edit";

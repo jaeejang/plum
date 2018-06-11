@@ -15,7 +15,6 @@
  */
 package org.plum.config;
 
-import org.hibernate.validator.HibernateValidator;
 import org.plum.tools.runtime.MybatisXmlMapperAutoReloader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -26,8 +25,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -88,14 +85,6 @@ public class RootConfiguration {
 		bean.setDefaultEncoding("UTF-8");
 		bean.setMaxUploadSize(8388608);
 		return bean;
-	}
-
-	@Bean
-	public Validator getValidator() {
-		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-		validator.setProviderClass(HibernateValidator.class);
-		validator.setValidationMessageSource(getMessageSource());
-		return validator;
 	}
 
 	@Bean

@@ -25,10 +25,19 @@ public class BaseController {
 		Object sess = request.getSession().getAttribute("user");
 		if (sess != null && sess instanceof User) {
 			log.debug("get user session and privileges");
-			context.setContext(request);
-			TreeNode menu = context.getMenuTree();
-			model.addAttribute("function", context.getLeef() == null ? "" : context.getLeef().getFuncname());
-			model.addAttribute("menu", menu);
+			
+			if(request.getHeader("X-PJAX")!=null ) {
+				model.addAttribute("pjax",true);
+				log.debug("PJAX REQUEST");
+			}
+			else {
+				model.addAttribute("pjax",false);
+				context.setContext(request);
+				TreeNode menu = context.getMenuTree();
+				model.addAttribute("function", context.getLeef() == null ? "" : context.getLeef().getFuncname());
+				model.addAttribute("menu", menu);
+				model.addAttribute("_user", context.getUser());
+			}
 			model.addAttribute("dicts",context.getDicts());
 			
 		}

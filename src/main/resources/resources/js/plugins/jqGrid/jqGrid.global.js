@@ -2,6 +2,11 @@ jQuery.extend(jQuery.jgrid.defaults, {
 	altRows : true,
 	sortable : false,
 	styleUI : 'Bootstrap',
+    rowNum: 20,
+    autowidth:true,
+	viewrecords: true,
+	rownumbers:true,
+    //multiselect: true,
 	prmNames : {
 		page : "page",
 		rows : "rows",
@@ -17,5 +22,6 @@ jQuery.extend(jQuery.jgrid.defaults, {
 		subgridid : "id",
 		npage : null,
 		totalrows : "totalrows"
-	}
+	},
+	rowList:[10,20,50,100]
 });

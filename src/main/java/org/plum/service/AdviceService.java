@@ -1,15 +1,18 @@
 package org.plum.service;
 
-import java.util.Date;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.plum.dao.advice.AdviceBranchMapper;
+import org.plum.dao.advice.AdviceCommentMapper;
 import org.plum.dao.advice.AdviceMapper;
-import org.plum.dao.advice.AdviceVoteMapper;
 import org.plum.initial.PlumCache;
 import org.plum.model.advice.Advice;
 import org.plum.model.advice.AdviceBranch;
-import org.plum.model.advice.AdviceVote;
+import org.plum.model.advice.AdviceComment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +27,15 @@ public class AdviceService {
 	private AdviceMapper adviceMapper;
 
 	@Autowired
-	private AdviceBranchMapper adviceBranchMapper;
+	private  AdviceBranchMapper adviceBranchMapper;
+	
 
 	@Autowired
-	private AdviceVoteMapper adviceVoteMapper;
+	private  AdviceCommentMapper adviceCommentMapper;
+
+	//@Autowired
+	//private AdviceVoteMapper adviceVoteMapper;
+	
 
 	public Advice getAdvice(int adviceid) {
 		return adviceMapper.selectByPrimaryKey(adviceid);
@@ -45,8 +53,37 @@ public class AdviceService {
 		
 	}
 
-	public List<Advice> selectAdvice(String username,String search) {
-		return adviceMapper.selectByExampleWithPagination(username,search);
+	public List<Advice> selectAdvice(String username,Map<String,String[]> params) {
+		String leaddep  = RequestUtils.getQueryParm(params, String.class, "leaddep");
+		String brchno  = RequestUtils.getQueryParm(params, String.class, "brchno");
+		String keyword  = RequestUtils.getQueryParm(params, String.class, "keyword");
+		Integer catalog  = RequestUtils.getQueryParm(params, Integer.class, "catalog");
+		Integer status  = RequestUtils.getQueryParm(params, Integer.class, "status");
+		
+		try {
+			return adviceMapper.selectByExampleWithPagination(catalog, leaddep, status, brchno, username, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
+	}
+	
+	//
+	public List<Advice> selectPublicAdvice(Map<String,String[]> params){
+		String leaddep  = RequestUtils.getQueryParm(params, String.class, "leaddep");
+		String brchno  = RequestUtils.getQueryParm(params, String.class, "brchno");
+		String keyword  = RequestUtils.getQueryParm(params, String.class, "keyword");
+		Integer catalog  = RequestUtils.getQueryParm(params, Integer.class, "catalog");
+		//Integer status  = RequestUtils.getQueryParm(params, Integer.class, "status");
+		try {
+			Map<String,Object>map = new LinkedHashMap<String,Object>();
+			map.put("leaddep", leaddep);
+			map.put("brchno", brchno);
+			map.put("catalog", catalog);
+			map.put("status", 1);
+			return adviceMapper.selectByParamsWithPagination(map, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
 	}
 
 	public int deleteAdvice(int adviceid) {
@@ -58,10 +95,13 @@ public class AdviceService {
 	
 	
 	public List<AdviceBranch> selectAdviceBranch(){
-		return adviceBranchMapper.selectAll();
+		if(PlumCache.AdviceBranches == null)
+			PlumCache.AdviceBranches = adviceBranchMapper.selectAll();
+		return PlumCache.AdviceBranches;
 	}
 	
-	public boolean saveAdviceVote(Integer adviceId, String username){
+	/*
+	 public boolean saveAdviceVote(Integer adviceId, String username){
 		
 		AdviceVote vote = new AdviceVote();
 		vote.setAdviceId(adviceId);
@@ -73,6 +113,31 @@ public class AdviceService {
 			 return ret > 0 ? true: false;
 		}
 		return false;
-		
+	}
+	*/
+	
+	/*
+	 * 意见反馈
+	 */	
+	public boolean saveOrUpdateComment(AdviceComment coment) {
+		int ret = 0;
+		if(coment.getId() == null)
+			ret = adviceCommentMapper.insert(coment);
+		else
+			ret = adviceCommentMapper.updateByPrimaryKey(coment);
+		if(ret > 0)
+			PlumCache.CacheFuncs.clear();
+		return ret == 0 ? false : true;
+	}
+	
+	public List<AdviceComment> getCommentByAdvice(int adviceid) {
+		return adviceCommentMapper.selectByAdvice(adviceid);
+	} 
+	
+	
+
+	public int deleteAdviceComment(int id) {
+		int ret = adviceCommentMapper.deleteByPrimaryKey(id);
+		return ret;
 	}
 }

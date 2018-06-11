@@ -6,52 +6,16 @@
     <result column="rolename" jdbcType="VARCHAR" property="rolename" />
 	<result column="admin" jdbcType="BIT" property="admin" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
+  
   <sql id="Base_Column_List">
     roleid, rolename,admin
   </sql>
-  <select id="selectAll" parameterType="org.plum.model.system.RoleExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
+  <select id="selectRoles"  resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
     from sys_role
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
+    order by roleid
+  </select>  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -66,18 +30,6 @@
     insert into sys_role (roleid, rolename, admin)
     values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{admin,jdbcType=BIT})
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="org.plum.model.system.Role">
-    update sys_role
-    <set>
-      <if test="rolename != null">
-        rolename = #{rolename,jdbcType=VARCHAR},
-      </if>
-      <if test="admin != null">
-        admin = #{admin,jdbcType=BIT},
-      </if>
-    </set>
-    where roleid = #{roleid,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="org.plum.model.system.Role">
     update sys_role
     set rolename = #{rolename,jdbcType=VARCHAR},

@@ -16,7 +16,6 @@ js=['plugins/jstree/jstree.min.js'] >
 					<ul class="nav nav-tabs">
 						<li><a href="${base}/role/edit/${roleid!}">基本信息</a></li>
 						<li class="active"><a data-toggle="tab" href="#">功能权限</a></li>
-						<li><a href="${base}/role/user/${roleid!}">用户</a></li>
 					</ul>
 					<div class="tab-content ">
 						<div id="tab-2" class="tab-pane active">
