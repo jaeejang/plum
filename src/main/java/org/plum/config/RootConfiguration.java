@@ -87,6 +87,7 @@ public class RootConfiguration {
 		return bean;
 	}
 
+	/*
 	@Bean
 	public MessageSource getMessageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
@@ -94,5 +95,6 @@ public class RootConfiguration {
 		source.setDefaultEncoding("UTF-8");
 		return source;
 	}
+	*/
 	
 }

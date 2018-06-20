@@ -1,24 +1,23 @@
 <#include "../include/page.tpl" />
-<#include "comment.tpl" />
-<@page title="创新建议" css=['plugins/summernote/summernote.css',
+<#include "inc/_comment.tpl" />
+<#include "inc/_poll.tpl" />
+<@page title="建议反馈" css=['plugins/summernote/summernote.css',
 "plugins/iCheck/custom.css",
 'plugins/select2/select2.min.css']
 js=['plugins/select2/select2.min.js',
 'plugins/iCheck/icheck.min.js',
 'plugins/summernote/summernote.min.js',
 'plugins/summernote/summernote-zh-CN.js'] >
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content ">
 	<div class="row">
 		<div class="col-lg-6">
-			<div class="float-e-margins">
+			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>
-						创新建议 <small>修改</small>
+						建议反馈 <small>查看</small>
 					</h5>
 				</div>
-			</div>
-			<div class="ibox-content">
-				<form method="POST" action="${base}/adv/edit">
+				<div class="ibox-content">
 					<input type="hidden" name="id" value="${advice.id!}" /> 
 					<div class="row">
 						<div  class="col-sm-6 ">
@@ -59,72 +58,63 @@ js=['plugins/select2/select2.min.js',
 					<div  class="row">
 							<div class="col-sm-10 m-b-xs">
 								<label class="control-label">标题</label>
-								<input type="text" name="summary" class="form-control" value="${advice.summary!}"   maxlength="100"/>
+								<input type="text" name="summary" class="form-control" value="${advice.summary!}"   maxlength="100" readonly />
 							</div>
 					</div>
 					<div class="row">
 							<div class="col-sm-12 m-b-xs">
 								<label class="control-label">内容</label>
-								<div>
-									<textarea name="content" class="summernote" >${advice.content!}</textarea>
+								<div class="panel panel-primary">
+									<div class="panel-body">
+										${advice.content!}
+									</div>
+									<div class="panel-footer">
+											<div class="clearfix"><div class="pull-left">发表人：${advice.crtusrna!}  </div><div class="pull-right"> 发表时间：${advice.crttime?string["yyyy.MM.dd, HH:mm"]} </div></div>
+									</div>
 								</div>
 							</div>
-                     </div>
-                     <div class="row">
-                     	<div class="col-sm-offset-5 col-sm-7">
-                     		发表人：${advice.crtusrna!}   发表时间：${advice.crttime?string["yyyy.MM.dd HH:mm"]} 
-                     	</div>
-                     </div>              
-					<div class="row form-group">
-						<label class="col-sm-2 control-label"></label>
-						<div class="col-sm-10">
-							<div class="btn-group" role="group" aria-label="...">
-								<button type="submit" class="btn btn-success" >修改</button>
-								<a class="btn btn-info" href="${base}/adv/admin">返回</a>
-							</div>
-						</div>
-					</div>
-				  </form>
-                     <#if files?? && (files?size > 0)>
-                     <div class="row">
-                     		<table class="table table-bordered ">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>附件名</th>
-                                    <th>附件大小</th>
-                                    <th>附件地址</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <#list files as file>
-                                	<tr>
-                                		<td>${file?counter}</td>
-                                		<td>${file.filename}</td>
-                                		<td>${file.filesize}</td>
-                                		<td><a href="${base}/file/get/${file.id}">下载</a></td>
-                                	</tr>
-                                </#list>
-                                </tbody>
-                     		</table>
-                     </div>
-                     </#if>
+	                    </div>
+			    	<@poll />
+                    <#if files?? && (files?size > 0)>
+                    <div class="row">
+                    		<table class="table table-bordered ">
+                               <thead>
+                               <tr>
+                                   <th>#</th>
+                                   <th>附件名</th>
+                                   <th>附件大小</th>
+                                   <th>附件地址</th>
+                               </tr>
+                               </thead>
+                               <tbody>
+                               <#list files as file>
+                               	<tr>
+                               		<td>${file?counter}</td>
+                               		<td>${file.filename}</td>
+                               		<td>${file.filesize}</td>
+                               		<td><a href="${base}/file/get/${file.id}">下载</a></td>
+                               	</tr>
+                               </#list>
+                               </tbody>
+                    		</table>
+                    </div>
+                    </#if>
+				</div>
 			</div>
 		</div>
-
 		<div class="col-lg-6">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>
-						创新建议 <small>反馈</small>
+						建议反馈 <small>反馈</small>
 					</h5>
 					<div class="ibox-tools">
                       <a class="collapse-link">
                           <i class="fa fa-chevron-up"></i>
                       </a>
                   </div>
-				</div>
-				<div class="ibox-content">
+                </div>
+                <div class="ibox-content">
 					<form action="${base}/adv/comment" method='POST' class="form-horizontal"> 
 						<input type="hidden" name="adviceId"  value="${advice.id!}" />
 						<div class="row">
@@ -149,9 +139,10 @@ js=['plugins/select2/select2.min.js',
 					</form>
 				</div>
 			</div>			
-		<@show_comment delete=true />
+			<@show_comment delete=true />
+		</div>
 	</div>
-</div>
+  </div>
 <script type="text/javascript">
 function jsonpCallback(data) {
 		$.each(data, function(i, n) {
@@ -167,7 +158,8 @@ function jsonpCallback(data) {
 
 		$('.i-checks').iCheck({checkboxClass: 'icheckbox_square-green'});
 		$('.chosen-select').select2({
-			placeholder : '请选择'
+			placeholder : '请选择',
+			disabled : true
 		});
 		$('.summernote').summernote({
 			lang: 'zh-CN',

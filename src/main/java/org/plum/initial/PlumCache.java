@@ -8,11 +8,10 @@ import org.plum.model.system.Dict;
 import org.plum.model.system.Func;
 import org.plum.model.system.Role;
 import org.plum.tools.ui.TreeNode;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 @Component  
-public class PlumCache implements InitializingBean {
+public class PlumCache {
 	public static List<Func> CacheFuncs;
 	public static List<Role> CacheRoles;
 	
@@ -24,9 +23,7 @@ public class PlumCache implements InitializingBean {
 	
 	public static List<AdviceBranch> AdviceBranches;
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// TODO Auto-generated method stub
+	public void reset() throws Exception {
 		CacheFuncs = null;
 		CacheRoles= null;
 		CacheMenu = null;

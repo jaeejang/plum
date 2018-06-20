@@ -1,5 +1,6 @@
 <#include "../include/page.tpl" />
-<#include "comment.tpl" />
+<#include "inc/_comment.tpl" />
+<#include "inc/_poll.tpl" />
 <@page title="创新建议" css=['plugins/summernote/summernote.css',
 "plugins/iCheck/custom.css",
 'plugins/select2/select2.min.css']
@@ -18,7 +19,6 @@ js=['plugins/select2/select2.min.js',
 				</div>
 			</div>
 			<div class="ibox-content">
-				<form method="POST" action="${base}/adv/edit">
 					<input type="hidden" name="id" value="${advice.id!}" /> 
 					<div class="row">
 						<div  class="col-sm-6 ">
@@ -65,47 +65,44 @@ js=['plugins/select2/select2.min.js',
 					<div class="row">
 							<div class="col-sm-12 m-b-xs">
 								<label class="control-label">内容</label>
-								<div>
-									<textarea name="content" class="summernote" >${advice.content!}</textarea>
+								<div class="panel panel-primary">
+									<div class="panel-body">
+										${advice.content!}
+									</div>
+									<div class="panel-footer">
+											<div class="clearfix"><div class="pull-left">发表人：${advice.crtusrna!}  </div><div class="pull-right"> 发表时间：${advice.crttime?string["yyyy.MM.dd, HH:mm"]} </div></div>
+									</div>
 								</div>
 							</div>
                      </div>
-                     <div class="row">
-                     	<div class="col-sm-offset-4 col-sm-8">
-                     		发表人：${advice.crtusrna!}   发表时间：${advice.crttime?string["yyyy.MM.dd, HH:mm"]} 
-                     	</div>
-                     </div>
-					<div class="row form-group">
-						<label class="col-sm-2 control-label"></label>
-						<div class="col-sm-10">
-							<div class="btn-group" role="group" aria-label="...">
-								<a class="btn btn-info" href="${base}/adv/my">返回</a>
-							</div>
-						</div>
-					</div>
-				  </form>
+				  <@poll />
                      <#if files?? && (files?size > 0)>
                      <div class="row">
-                     		<table class="table table-bordered ">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>附件名</th>
-                                    <th>附件大小</th>
-                                    <th>附件地址</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <#list files as file>
-                                	<tr>
-                                		<td>${file?counter}</td>
-                                		<td>${file.filename}</td>
-                                		<td>${file.filesize}</td>
-                                		<td><a href="${base}/file/get/${file.id}">下载</a></td>
-                                	</tr>
-                                </#list>
-                                </tbody>
-                     		</table>
+						 <div class="col-sm-12 m-b-xs">
+	                     	 <div class="panel panel-default">
+	                     	  	<div class="panel-heading"> 附件 </div>
+	                     		<table class="table ">
+	                                <thead>
+	                                <tr>
+	                                    <th>#</th>
+	                                    <th>附件名</th>
+	                                    <th>附件大小</th>
+	                                    <th>附件地址</th>
+	                                </tr>
+	                                </thead>
+	                                <tbody>
+	                                <#list files as file>
+	                                	<tr>
+	                                		<td>${file?counter}</td>
+	                                		<td>${file.filename}</td>
+	                                		<td>${file.filesize}</td>
+	                                		<td><a href="${base}/file/get/${file.id}">下载</a></td>
+	                                	</tr>
+	                                </#list>
+	                                </tbody>
+	                     		</table>
+	                     	 </div>
+                     	 </div>
                      </div>
                      </#if>
 			</div>
@@ -133,20 +130,6 @@ function jsonpCallback(data) {
 			placeholder : '请选择',
 			disabled : true
 		});
-		$('.summernote').summernote({
-			lang: 'zh-CN',
-			height: 150,
-			toolbar: [
-			   // [groupName, [list of button]]
-			   ['style', ['bold', 'italic', 'underline', 'clear']],
-			   ['font', ['strikethrough', 'superscript', 'subscript']],
-			   ['fontsize', ['fontsize']],
-			   ['color', ['color']],
-			   ['para', ['ul', 'ol', 'paragraph']],
-			   ['height', ['height']]
-			]
-		});
-		$('.summernote').summernote('disable');
 }
 </script>
 </@page>

@@ -20,7 +20,7 @@ js=['plugins/iCheck/icheck.min.js'] >
 					<div class="tab-content ">
 						<div id="tab-1" class="tab-pane active">
 							<div class="panel-body">
-								<form method="POST" class="form-horizontal" action="${base}/func/edit">
+								<form method="POST" class="form-horizontal" action="${base}/role/edit">
 									<#if role.roleid??>
 										<div class="form-group">
 											<label class="col-sm-2 control-label">ID</label>

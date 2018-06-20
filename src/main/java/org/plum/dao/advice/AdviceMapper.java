@@ -11,7 +11,7 @@ public interface AdviceMapper {
 
     int insert(Advice record);
 
-    List<Advice> selectByExampleWithPagination(
+    List<Advice> selectAdviceByExampleWithPagination(
     		@Param("catalog")Integer catalog, 
     		@Param("leaddep")String leaddep, 
     		@Param("status")Integer status, 
@@ -19,11 +19,15 @@ public interface AdviceMapper {
     		@Param("crtusr") String crtusr,
     		@Param("keyword")String keyword);
     
-    List<Advice> selectByParamsWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
+    List<Advice> selectAdviceByParamsWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
 
     Advice selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKey(Advice record);
     
-    int updatePolls(Integer id);
+    
+    List<Advice> selectTopicByParamsWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
+    
+
+    int updatePolls(@Param("type")Integer type , @Param("id")Integer id); 
 }

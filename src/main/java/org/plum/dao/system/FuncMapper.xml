@@ -16,7 +16,7 @@
     select 
     <include refid="Base_Column_List" />
     from sys_func
-    order by `order`
+    order by superid, `order`
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 

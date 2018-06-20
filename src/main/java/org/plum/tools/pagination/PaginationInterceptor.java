@@ -8,12 +8,10 @@ import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.ibatis.binding.MapperMethod.ParamMap;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
-import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
@@ -49,10 +47,10 @@ public class PaginationInterceptor implements Interceptor {
 	private void intercept(final Object[] args) {
 		MappedStatement ms = (MappedStatement) args[0];
 		Object parameter = args[1];
-
-		if (ms.getId().matches(nameRegularExpress)) {
+		Page page = PageContext.get();
+		
+		if (ms.getId().matches(nameRegularExpress) && page.isInit()) {
 			BoundSql boundSql = ms.getBoundSql(parameter);
-			Page page = PageContext.get();
 			String sql = dialect.generateLimitSQL(boundSql.getSql().trim(), page.getOffset(),
 					page.getLimit());
 

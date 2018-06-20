@@ -21,10 +21,10 @@
 			targetProject="src\main\java" />
 		<javaClientGenerator targetPackage="org.plum.dao.advice"
 			targetProject="src\main\java" type="XMLMAPPER" />
-		<table schema="" tableName="advice_comment" domainObjectName="AdviceComment"
+		<table schema="" tableName="subject" domainObjectName="Subject"
 			enableInsert="true" enableSelectByPrimaryKey="true"
 			enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
-			enableSelectByExample="true" enableUpdateByExample="false"
+			enableSelectByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableCountByExample="false" modelType="flat"
 			delimitIdentifiers="false" delimitAllColumns="false">
 		</table>

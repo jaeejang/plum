@@ -3,13 +3,14 @@ package org.plum.controller.system;
 import javax.servlet.http.HttpServletRequest;
 
 import org.plum.model.system.User;
-import org.plum.model.system.Userrole;
 import org.plum.security.UserService;
 import org.plum.service.PrivilegeService;
-import org.plum.service.RequestUtils;
 import org.plum.service.SystemService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
+import org.plum.tools.ui.JsonModel;
+import org.plum.tools.ui.JsonResult;
+import org.plum.tools.ui.ResultType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,12 +79,14 @@ public class UserController {
 			return "redirect:"  + request.getHeader("Referer");
 	}
 
-	@RequestMapping("/delete/{username}")
-	public String delete(@PathVariable String username, Model model) {
-		userService.delete(username);
-		model.addAttribute("result", "sucess");
-		model.addAttribute("desc", "");
-		return "sys/user";
+	@RequestMapping("/delete/{id}")
+	@ResponseBody
+	public JsonModel delete(@PathVariable String id, Model model) {
+		JsonResult result = JsonResult.createInstance();
+		int count = userService.delete(id);
+		result.setType(ResultType.SUCCESS);
+		result.addAttribute("message", String.format("成功删除%d条记录", count));
+		return result;
 	}
 
 

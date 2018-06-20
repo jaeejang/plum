@@ -1,6 +1,6 @@
 <#include "../include/page.tpl" />
-<@page title="角色编辑" css=['plugins/jstree/style.min.css']
-js=['plugins/jstree/jstree.min.js'] >
+<@page title="角色编辑" css=['plugins/jsTree/style.min.css']
+js=['plugins/jsTree/jstree.min.js'] >
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
 		<div class="col-lg-12">

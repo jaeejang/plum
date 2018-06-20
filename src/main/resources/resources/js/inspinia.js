@@ -98,12 +98,10 @@ $(document).ready(function () {
 
     // Append config box / Only for demo purpose
     // Uncomment on server mode to enable XHR calls
-/* 
-   $.get("skin-config.html", function (data) {
-       if (!$('body').hasClass('no-skin-config'))
-           $('body').append(data);
-   });
-*/
+/*
+ * $.get("skin-config.html", function (data) { if
+ * (!$('body').hasClass('no-skin-config')) $('body').append(data); });
+ */
     // Minimalize menu
     $('.navbar-minimalize').click(function () {
         $("body").toggleClass("mini-navbar");
@@ -255,7 +253,7 @@ function animationHover(element, animation) {
             element.addClass('animated ' + animation);
         },
         function () {
-            //wait for animation to finish before removing classes
+            // wait for animation to finish before removing classes
             window.setTimeout(function () {
                 element.removeClass('animated ' + animation);
             }, 2000);
@@ -278,7 +276,8 @@ function SmoothlyMenu() {
                 $('#side-menu').fadeIn(400);
             }, 100);
     } else {
-        // Remove all inline style from jquery fadeIn function to reset menu state
+        // Remove all inline style from jquery fadeIn function to reset menu
+		// state
         $('#side-menu').removeAttr('style');
     }
 }
@@ -313,15 +312,15 @@ function decode(dict,type,code){
 }
 
 
-Date.prototype.Format = function (fmt) { //author: meizz
+Date.prototype.Format = function (fmt) { // author: meizz
 	  var o = {
-	    "M+": this.getMonth() + 1, //月份
-	    "d+": this.getDate(), //日
-	    "h+": this.getHours(), //小时
-	    "m+": this.getMinutes(), //分
-	    "s+": this.getSeconds(), //秒
-	    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-	    "S": this.getMilliseconds() //毫秒
+	    "M+": this.getMonth() + 1, // 月份
+	    "d+": this.getDate(), // 日
+	    "h+": this.getHours(), // 小时
+	    "m+": this.getMinutes(), // 分
+	    "s+": this.getSeconds(), // 秒
+	    "q+": Math.floor((this.getMonth() + 3) / 3), // 季度
+	    "S": this.getMilliseconds() // 毫秒
 	  };
 	  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
 	  for (var k in o)
@@ -330,7 +329,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 	}
 
 $(document).ready(function() {
-	// Collapse ibox function    
+	// Collapse ibox function
 	$.ajax({
 		url:document.baseURI + '/jsonp/dict',
 		type: "get",  

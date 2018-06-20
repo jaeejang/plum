@@ -7,34 +7,35 @@
     <result column="crttime" jdbcType="TIMESTAMP" property="crttime" />
     <result column="crtusr" jdbcType="VARCHAR" property="crtusr" />
     <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="crtbrch" jdbcType="VARCHAR" property="crtbrch" />
+    <result column="satisfy" jdbcType="VARCHAR" property="satisfy" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="org.plum.model.advice.AdviceComment">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, advice_id, crttime, crtusr,title
+    ID, advice_id, crttime, crtusr,title,crtbrch,satisfy
   </sql>
   <sql id="Blob_Column_List">
     content
   </sql>
+  <sql id="Full_Column_List">
+  	 ID, advice_id, crttime, crtusr,title,content,crtbrch, b.advice_brchna as crtbrna,satisfy
+  </sql>
   
   <select id="selectByAdvice" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from advice_comment
-    where advice_id = #{id,jdbcType=INTEGER}
-    order by crttime desc
+    <include refid="Full_Column_List" />
+    from advice_comment c left join advice_branch b on b.advice_brchno = c. crtbrch
+    where c.advice_id = #{id,jdbcType=INTEGER}
+    order by c.crttime desc
   </select>
   
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from advice_comment
-    where ID = #{id,jdbcType=INTEGER}
+    <include refid="Full_Column_List" />
+    from advice_comment c left join advice_branch b on b.advice_brchno = c. crtbrch
+    where c.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from advice_comment
@@ -42,9 +43,10 @@
   </delete>
   <insert id="insert" parameterType="org.plum.model.advice.AdviceComment">
     insert into advice_comment (ID, advice_id, crttime, 
-      crtusr, title,content)
+      crtusr, title,content,crtbrch,satisfy)
     values (#{id,jdbcType=INTEGER}, #{adviceId,jdbcType=INTEGER}, #{crttime,jdbcType=TIMESTAMP}, 
-       #{crtusr,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+       #{crtusr,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},
+       #{crtbrch,jdbcType=VARCHAR}, #{satisfy,jdbcType=BIT})
   </insert>
   <update id="updateByPrimaryKey" parameterType="org.plum.model.advice.AdviceComment">
     update advice_comment
@@ -52,7 +54,9 @@
       crttime = #{crttime,jdbcType=TIMESTAMP},
       crtusr = #{crtusr,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=LONGVARCHAR}
+      content = #{content,jdbcType=LONGVARCHAR},
+      crtbrch = #{crtbrch,jdbcType=VARCHAR},
+      satisfy = #{satisfy,jdbcType=BIT}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

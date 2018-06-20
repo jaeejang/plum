@@ -12,15 +12,19 @@ public class RequestUtils {
 			String paramValue = params.get(paramName)[0];
 			if (type != String.class) {
 				if (NumberUtils.isCreatable(paramValue)) {
-					if (type == int.class || type == Integer.class) {
+
+					if (type == Integer.class)
 						returnValue = Integer.parseInt(paramValue);
-					} else if (type == double.class || type == Double.class)
+					else if (type == Double.class)
 						returnValue = Double.parseDouble(paramValue);
+
+				} else if (type == Boolean.class) {
+					returnValue = Boolean.parseBoolean(paramValue);
 				}
 			} else {
 				returnValue = paramValue;
 			}
 		}
 		return type.cast(returnValue);
-	}	
+	}
 }

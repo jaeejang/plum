@@ -65,14 +65,14 @@ public class PrivilegeService {
 		else
 			ret = roleMapper.updateByPrimaryKey(toSave);
 		if (ret > 0)
-			PlumCache.CacheFuncs.clear();
+			PlumCache.CacheRoles.clear();
 		return ret == 0 ? false : true;
 	}
 
 	public int deleteRole(int roleid) {
 		int ret = roleMapper.deleteByPrimaryKey(roleid);
 		if (ret > 0)
-			PlumCache.CacheFuncs.clear();
+			PlumCache.CacheRoles.clear();
 		return ret;
 	}
 

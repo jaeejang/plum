@@ -56,15 +56,27 @@ $(document).ready(function(){
                 caption: "删除",
                 position: "last",
                 onClickButton: function(){
-                	
+    				var ids = $('#jqGrid').getGridParam('selrow');
+    				if(!ids || ids.length == 0 ){
+    					toastr["info"]("请选择一行记录","提示");
+    					return ;
+    				}
+    				var row = $('#jqGrid').getRowData(ids);
+	    			deleteRow(ids);
                 }
             });
 });
 
-function search(){
-    $("#jqGrid").jqGrid('setGridParam',{  
-        datatype:'json'
-    }).trigger("reloadGrid"); 
+function deleteRow(ids){
+	jQuery.get(
+			'${base}/role/delete/' + ids,				
+			function(ret){
+				if(ret.type == "success"){
+				    $("#jqGrid").jqGrid().trigger("reloadGrid"); 
+				}
+				toastr[ret.type](ret.message,ret.name);
+			}		
+		);
 }
 </script>
 </@page>

@@ -15,6 +15,12 @@ public class AdviceComment {
 
 
 	private String content;
+	
+	private String crtbrch;
+	
+	private String crtbrna;
+	
+	private Boolean satisfy;
 
 	
 
@@ -66,4 +72,28 @@ public class AdviceComment {
     public void setContent(String content) {
         this.content = content;
     }
+
+	public String getCrtbrch() {
+		return crtbrch;
+	}
+
+	public void setCrtbrch(String crtbrch) {
+		this.crtbrch = crtbrch;
+	}
+
+	public String getCrtbrna() {
+		return crtbrna;
+	}
+
+	public void setCrtbrna(String crtbrna) {
+		this.crtbrna = crtbrna;
+	}
+
+	public Boolean getSatisfy() {
+		return satisfy;
+	}
+
+	public void setSatisfy(Boolean satisfy) {
+		this.satisfy = satisfy;
+	}
 }

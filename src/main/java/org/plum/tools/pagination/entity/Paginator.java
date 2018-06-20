@@ -20,7 +20,7 @@ public class Paginator {
 	/*
 	 * an array that contains the actual data
 	 */
-	private List rows;
+	private List<?> rows;
 	
 	/*
 	 * the unique id of the row
@@ -32,7 +32,7 @@ public class Paginator {
 	 */
 	private Object cell;
 
-	public Paginator(List rows) {
+	public Paginator(List<?> rows) {
 		this.rows = rows;
 		Page page = PageContext.get();
 		this.records = page.getTotalRows();
@@ -68,7 +68,7 @@ public class Paginator {
 		return records;
 	}
 
-	public List getRows() {
+	public List<?> getRows() {
 		return rows;
 	}
 	

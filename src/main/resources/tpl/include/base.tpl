@@ -1,5 +1,5 @@
 <#compress>
-<#macro base base_title="" base_body="" base_keywords="" base_js=[] base_css=[] notification=true>
+<#macro basePage base_title="" base_body="" base_keywords="" base_js=[] base_css=[] notification=true>
 <#assign base=request.contextPath />
 <!DOCTYPE html>
 <html lang="zh">
@@ -47,7 +47,7 @@
 	</script>
 	</#if>
 </head>
-<body <#if (base_body)!="">class="${base_body}"</#if>>
+<body  class="fixed-sidebar no-skin-config ${base_body}">
 
 	<#nested>
 	

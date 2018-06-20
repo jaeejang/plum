@@ -8,8 +8,20 @@ public class AdviceVote {
     private String voter;
 
     private Date vttime;
+    
+    private Integer type = 1;
+    
+    
 
-    public String getVoter() {
+    public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getVoter() {
         return voter;
     }
 

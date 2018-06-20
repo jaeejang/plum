@@ -4,6 +4,9 @@ import org.plum.model.system.Func;
 import org.plum.service.PrivilegeService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
+import org.plum.tools.ui.JsonModel;
+import org.plum.tools.ui.JsonResult;
+import org.plum.tools.ui.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,11 +59,13 @@ public class FuntionController {
 		return "sys/func_edit";
 	}
 
-	@RequestMapping("delete/{funid}")
-	public String delete(@PathVariable int funid, Model model) {
-		privilegeService.deleteFunc(funid);
-		model.addAttribute("result", "sucess");
-		model.addAttribute("desc", "");
-		return "sys/func";
+	@RequestMapping("delete/{id}")
+	@ResponseBody
+	public JsonModel delete(@PathVariable int id, Model model) {
+		JsonResult result = JsonResult.createInstance();
+		int count = privilegeService.deleteFunc(id);
+		result.setType(ResultType.SUCCESS);
+		result.addAttribute("message", String.format("成功删除%d条记录", count));
+		return result;
 	}
 }

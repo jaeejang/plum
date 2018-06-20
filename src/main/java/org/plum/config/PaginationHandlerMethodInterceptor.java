@@ -39,13 +39,17 @@ public class PaginationHandlerMethodInterceptor extends HandlerInterceptorAdapte
 				int draw = StringUtils.isNumeric(no) ? Integer.parseInt(no) : Page.DEFAULT_NO;
 				*/
 				
-				int page_no         = StringUtils.isEmpty(request.getParameter(Pagination.PAGE))?
-						Page.DEFAULT_NO:Integer.parseInt(request.getParameter(Pagination.PAGE));
-				int rows         = StringUtils.isEmpty(request.getParameter(Pagination.ROWS))?
-						Page.DEFAULT_SIZE:Integer.parseInt(request.getParameter(Pagination.ROWS));
-
-				int totalrows    = StringUtils.isNumeric(request.getParameter(Pagination.TOTALROWS))?
-						Integer.parseInt(request.getParameter(Pagination.ROWS)) : Page.DEFAULT_SIZE;
+				String str_page_no =  request.getParameter(Pagination.PAGE);
+				String  str_rows = request.getParameter(Pagination.ROWS);
+				String str_totalrows = request.getParameter(Pagination.TOTALROWS);
+				
+				
+				int page_no         = StringUtils.isEmpty(str_page_no)?
+						Page.DEFAULT_NO:Integer.parseInt(str_page_no);
+				int rows         = StringUtils.isEmpty(str_rows)?
+						Page.DEFAULT_SIZE:Integer.parseInt(str_rows);
+				int totalrows    = StringUtils.isNumeric(str_totalrows)?
+						Integer.parseInt(str_totalrows) : Page.DEFAULT_SIZE;
 						
 				String sort         = request.getParameter(Pagination.SORT);
 				String order        = request.getParameter(Pagination.ORDER);
@@ -60,6 +64,9 @@ public class PaginationHandlerMethodInterceptor extends HandlerInterceptorAdapte
 				
 				
 				Page page = new Page(page_no, rows, totalrows);
+				if(str_page_no != null || str_rows != null || str_totalrows != null) {
+					page.setInit(true);
+				}
 				PageContext.set(page);
 
 				if (log.isDebugEnabled()) {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.plum.dao.system.DictMapper;
 import org.plum.model.system.Dict;
 import org.plum.model.system.Func;
 import org.plum.model.system.Role;

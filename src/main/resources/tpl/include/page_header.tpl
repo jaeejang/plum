@@ -1,5 +1,6 @@
 <#macro page_bar>
-<div id="page-wrapper" class="gray-bg">
+
+<div id="page-wrapper" class="gray-bg" style="min-height: 779px;">
 	<div class="row border-bottom">
 		<nav class="navbar navbar-static-top" role="navigation"
 			style="margin-bottom: 0">

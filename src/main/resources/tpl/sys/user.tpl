@@ -80,7 +80,7 @@ $(document).ready(function(){
 						return '<input type=checkbox ' + (val ? 'checked':'') + ' disabled />';                	
                 }}
             ],
-            height:400,
+            height:370,
             pager: "#jqGridPager"
 	});
 	
@@ -102,11 +102,28 @@ $(document).ready(function(){
                 caption: "删除",
                 position: "last",
                 onClickButton: function(){
-                	
+    				var ids = $('#jqGrid').getGridParam('selrow');
+    				if(!ids || ids.length == 0 ){
+    					toastr["info"]("请选择一行记录","提示");
+    					return ;
+    				}
+    				var row = $('#jqGrid').getRowData(ids);
+    				deleteRow(ids);
                 }
             });
 });
 
+function deleteRow(ids){
+	jQuery.get(
+			'${base}/user/delete/' + ids,				
+			function(ret){
+				if(ret.type == "success"){
+					search();
+				}
+				toastr[ret.type](ret.message,ret.name);
+			}		
+		);
+}
 function search(){
     $("#jqGrid").jqGrid('setGridParam',{  
         datatype:'json',  

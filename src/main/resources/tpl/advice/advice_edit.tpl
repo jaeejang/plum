@@ -1,15 +1,18 @@
 <#include "../include/page.tpl" />
-<@page title="创新建议" css=['plugins/summernote/summernote.css',
+<@page title="提出/修改建议" css=['plugins/summernote/summernote.css',
 'plugins/select2/select2.min.css',
 "plugins/iCheck/custom.css",
 "plugins/fileupload/jquery.fileupload.css",
-"plugins/fileupload/jquery.fileupload-ui.css"]
+"plugins/fileupload/jquery.fileupload-ui.css",
+"plugins/switchery/switchery.css"]
 js=[
 'plugins/summernote/summernote.min.js',
 'plugins/summernote/summernote-zh-CN.js',
 'plugins/select2/select2.min.js',
 'plugins/iCheck/icheck.min.js',
-'plugins/validate/jquery.validate.min.js',
+"plugins/switchery/switchery.js"
+'plugins/validate/jquery.validate.js',
+"plugins/validate/messages_zh.min.js",
 "plugins/jQueryUI/jquery-ui.min.js",
 "plugins/fileupload/tmpl.min.js",
 "plugins/fileupload/jquery.iframe-transport.js",
@@ -23,7 +26,7 @@ js=[
 			<div class="float-e-margins">
 				<div class="ibox-title">
 					<h5>
-						创新建议 <small>编辑创新建议并提交</small>
+						意见建议 <small>编辑建议并提交</small>
 					</h5>
 				</div>
 			</div>
@@ -38,23 +41,43 @@ js=[
                             <div id="tab-1" class="tab-pane active">
                             <div class="panel-body">
                             <form id="form1" method="POST" class="form-horizontal" action="${base}/adv/edit">
-								<input type="hidden" name="id" value="${advice.id!}" /> 
+								<input type="hidden" name="id" value="${advice.id!}" />  
 								<input type="hidden" name="status" value="${advice.status!}" />
 								<input type="hidden" name="files" value=""  />
 								<div class="row">
 									<div class="form-group col-md-6" >
-										<label class="col-sm-4 control-label">创新类别</label>
+										<label class="col-sm-4 control-label">是否专题</label>
+										<div class="col-sm-7"><input type="checkbox" class="js-switch" name="isSub" <#if advice.subject ??>  checked </#if> /></div>
+									</div>
+									<div class="form-group col-md-6 <#if advice.subject?? == false>hidden</#if>" "  id="subDiv">
+										<label class="col-sm-4 control-label">选择专题</label>
+										<div class="col-sm-7">
+											<select  name="subject" class="form-control chosen-select"
+												value="${advice.subject!}" required>
+													<option></option>
+													<#if subjects??>
+														<#list subjects as subject>
+															<option value="${subject.id!}" <#if advice.subject?? && advice.subject == subject.id>selected </#if>>${subject.topic!}</option>
+														</#list>
+													</#if>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row <#if advice.subject??>hidden</#if>" id="commDiv">
+									<div class="form-group col-md-6" >
+										<label class="col-sm-4 control-label">建议类别</label>
 										<div class="col-sm-7">
 											<select type="text" name="catalog" class="form-control chosen-select"
-												value="${advice.catalog!}" required>
-												<option></option>
+												value="${advice.catalog!}" >
+											 	<option></option>
 											</select>
 										</div>
 									</div>
 									<div class="form-group col-md-6">
 										<label class="col-sm-4 control-label">建议牵头部门</label>
 										<div class="col-sm-7">
-											<select type="text" name="leaddep" class="form-control chosen-select" required>
+											<select type="text" name="leaddep" class="form-control chosen-select" >
 													<option></option>
 													<#if adviceBranch??>
 														<#list adviceBranch as d>
@@ -158,6 +181,7 @@ js=[
 			</div>
 		</div>
 	</div>
+	</div>
 </div>
 
 <!-- The template to display files available for upload -->
@@ -227,6 +251,25 @@ js=[
 </script>
 <script type="text/javascript">
 function jsonpCallback(data) {
+		var elem = document.querySelector('.js-switch');
+	    var switchery = new Switchery(elem, { color: '#1AB394' });
+	    $('#form1').validate({});
+	    elem.onchange = function() {
+	    	if(elem.checked){
+	    		$('#commDiv').toggleClass('hidden');
+	    		$('#subDiv').toggleClass('hidden');
+	    		$("select[name=subject]").rules("add",{required:true});
+	    		$("select[name=leaddep]").rules("remove");
+	    		$("select[name=catalog]").rules("remove");
+	    	}else{
+	    		$('#subDiv').toggleClass('hidden');
+	    		$('#commDiv').toggleClass('hidden');
+		    		$("select[name=subject]").rules("remove");
+		    		$("select[name=leaddep]").rules("add",{required:true});
+		    		$("select[name=catalog]").rules("add",{required:true});
+	    	}
+	    };
+
 		$("#save1").bind("click",function(){
 			if($("#form1").valid())
 				$("#form1").submit();
@@ -246,7 +289,8 @@ function jsonpCallback(data) {
 		
 		$('.chosen-select').select2({
 			placeholder : '请选择',
-			allowClear : true
+			allowClear : true,
+			width: "100%"
 		});
 		$('.i-checks').iCheck({checkboxClass: 'icheckbox_square-green'});
 		$('#summernote').summernote({

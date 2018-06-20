@@ -7,7 +7,9 @@ public class Advice {
 
     boolean anony = false;
 
-	private String crtdt;
+	private Integer subject;
+	
+	private String topic;
 
     private String crtusr;
     
@@ -39,6 +41,8 @@ public class Advice {
 
     private Integer polls;
     
+    private Integer polldown;
+    
     private String voter;
     
     private String reserve1;
@@ -50,7 +54,7 @@ public class Advice {
     private String content;
     
 
-    public boolean isAnony() {
+    public boolean getAnony() {
 		return anony;
 	}
 
@@ -114,13 +118,6 @@ public class Advice {
         this.id = id;
     }
 
-    public String getCrtdt() {
-        return crtdt;
-    }
-
-    public void setCrtdt(String crtdt) {
-        this.crtdt = crtdt;
-    }
 
     public String getCrtusr() {
         return crtusr;
@@ -216,5 +213,29 @@ public class Advice {
 
 	public void setVoter(String voter) {
 		this.voter = voter;
+	}
+
+	public Integer getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Integer subject) {
+		this.subject = subject;
+	}
+
+	public String getTopic() {
+		return topic;
+	}
+
+	public void setTopic(String topic) {
+		this.topic = topic;
+	}
+
+	public Integer getPolldown() {
+		return polldown;
+	}
+
+	public void setPolldown(Integer polldown) {
+		this.polldown = polldown;
 	}
 }

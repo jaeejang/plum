@@ -5,6 +5,9 @@ import org.plum.model.system.Role;
 import org.plum.service.PrivilegeService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
+import org.plum.tools.ui.JsonModel;
+import org.plum.tools.ui.JsonResult;
+import org.plum.tools.ui.ResultType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,12 +59,14 @@ public class RoleController {
 		return "sys/role_edit";
 	}
 
-	@RequestMapping("delete/{roleid}")
-	public String delete(@PathVariable int roleid, Model model) {
-		privilegeService.deleteRole(roleid);
-		model.addAttribute("result", "sucess");
-		model.addAttribute("desc", "");
-		return "sys/role";
+	@RequestMapping("delete/{id}")
+	@ResponseBody
+	public JsonModel delete(@PathVariable int id, Model model) {
+		JsonResult result = JsonResult.createInstance();
+		int count = privilegeService.deleteRole(id);
+		result.setType(ResultType.SUCCESS);
+		result.addAttribute("message", String.format("成功删除%d条记录", count));
+		return result;
 	}
 
 	@RequestMapping(value = "func/{roleid}", method = RequestMethod.GET)

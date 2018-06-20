@@ -17,6 +17,8 @@ public class Page extends RowBounds implements Serializable {
 	private int offset;
 	private int pageSize;
 	
+	private boolean isInit = false;
+	
 
 	private Page() {
 		super(0, DEFAULT_SIZE);
@@ -29,6 +31,16 @@ public class Page extends RowBounds implements Serializable {
 		this.page_no = page_no;
 		this.pageSize = pageSize;
 		this.totalRows = totalRows;
+	}
+	
+
+
+	public boolean isInit() {
+		return isInit;
+	}
+
+	public void setInit(boolean isInit) {
+		this.isInit = isInit;
 	}
 	
 	public int getOffset() {

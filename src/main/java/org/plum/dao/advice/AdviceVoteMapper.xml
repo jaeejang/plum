@@ -5,17 +5,16 @@
     <result column="advice_id" jdbcType="INTEGER" property="adviceId" />
     <result column="voter" jdbcType="VARCHAR" property="voter" />
     <result column="vttime" jdbcType="TIMESTAMP" property="vttime" />
+    <result column="type" jdbcType="INTEGER" property="type" />
   </resultMap>
 
-  <select id="selectCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(*)
-    from advice_vote
-    where advice_id = #{adviceId}
-  </select>
   <insert id="insert" parameterType="org.plum.model.advice.AdviceVote">
-    insert into advice_vote (advice_id, voter, vttime
+    insert into advice_vote (advice_id, voter, vttime,type
       )
-    values (#{adviceId,jdbcType=INTEGER}, #{voter,jdbcType=VARCHAR}, #{vttime,jdbcType=TIMESTAMP}
+    values (#{adviceId,jdbcType=INTEGER}, #{voter,jdbcType=VARCHAR}, #{vttime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER}
       )
   </insert>
+  <select id="selectCount" resultType="java.lang.Integer">
+  	select count(1) from advice_vote where advice_id = #{advice_id} and voter=#{voter}
+  </select>
 </mapper>
