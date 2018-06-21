@@ -36,7 +36,6 @@ $(document).ready(function(){
                 { label:'是否可用', name: 'enable',sortable:false, formatter:function(val){
 						return '<input type=checkbox ' + (val ? 'checked':'') + ' disabled />';                	
                 }},
-                { label: '优先级', name: 'primary'},
                 { label: '顺序', name: 'order' },
             ],
             height:400,

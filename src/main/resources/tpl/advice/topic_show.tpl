@@ -129,7 +129,7 @@ function jsonpCallback(data) {
 			width:200,
 			sortable : false,
 			formatter : function (val, options, row){
-				return "<a href=${base}/adv/view/" + row['id'] + '>' + row['summary'] + '</a>';
+				return "<a href=${base}/tpc/view/" + row['id'] + '>' + row['summary'] + '</a>';
 			}
 		}, {
 			label : '提出人',
@@ -142,7 +142,13 @@ function jsonpCallback(data) {
 			}
 		}, {
 			label : ' 提出部门',
-			name : 'brchna'
+			name : 'brchna',
+			formatter:function(val,options,row){
+				if(row['anony']) 
+					return '匿名'; 
+				else
+					return val;
+			}
 		}, {
 			label : ' 状态',
 			name : 'status',
@@ -180,6 +186,7 @@ function deleteRow(ids){
 }
 function formReset(){
 	$('.list-group-item').removeClass('active');
+	$('select').select2('val','All');
 	$('form[name=search-form]')[0].reset();
 }
 

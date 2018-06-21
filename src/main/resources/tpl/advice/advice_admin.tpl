@@ -90,7 +90,13 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 				}
 			}, {
 				label : ' 提出部门',
-				name : 'brchna'
+				name : 'brchna',
+				formatter:function(val,options,row){
+					if(row['anony']) 
+						return '匿名'; 
+					else
+						return val;
+				}
 			}, {
 				label : ' 状态',
 				name : 'status',
@@ -99,10 +105,19 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 					return decode(data, "advice_status", value);
 				}
 			}, {
-				label : ' 日期',
+				label : ' 提出时间',
 				name : 'crttime',
 				formatter:function(value){return new Date(value).Format('yyyy-MM-dd hh:mm:ss');}
-			}, ],
+			}, {
+				label : ' 处理时间',
+				name : 'cmttime',
+				formatter:function(value){
+					if(value)
+						return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+					else
+						return "";
+				}
+			}],
 			height : 300,
 			pager : "#jqGridPager"
 		});

@@ -53,6 +53,11 @@ public class Advice {
 
     private String content;
     
+    private Boolean pub;
+    
+    private Date cmttime;
+    
+    
 
     public boolean getAnony() {
 		return anony;
@@ -237,5 +242,21 @@ public class Advice {
 
 	public void setPolldown(Integer polldown) {
 		this.polldown = polldown;
+	}
+
+	public Boolean getPub() {
+		return pub;
+	}
+
+	public void setPub(Boolean pub) {
+		this.pub = pub;
+	}
+
+	public Date getCmttime() {
+		return cmttime;
+	}
+
+	public void setCmttime(Date cmttime) {
+		this.cmttime = cmttime;
 	}
 }

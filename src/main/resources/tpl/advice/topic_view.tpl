@@ -1,20 +1,17 @@
 <#include "../include/page.tpl" />
-<#include "inc/_comment.tpl" />
 <#include "inc/_poll.tpl" />
-<@page title="创新建议" css=['plugins/summernote/summernote.css',
+<@page title="创新建议" css=[
 "plugins/iCheck/custom.css",
 'plugins/select2/select2.min.css']
 js=['plugins/select2/select2.min.js',
-'plugins/iCheck/icheck.min.js',
-'plugins/summernote/summernote.min.js',
-'plugins/summernote/summernote-zh-CN.js'] >
+'plugins/iCheck/icheck.min.js'] >
 <div class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
-				<div class="col-lg-6">
+				<div class="col-lg-8 col-lg-offset-2">
 			<div class="float-e-margins">
 				<div class="ibox-title">
 					<h5>
-						创新建议 <small>修改</small>
+						专题建议 <small>查看</small>
 					</h5>
 				</div>
 			</div>
@@ -32,13 +29,6 @@ js=['plugins/select2/select2.min.js',
 							<div class="i-checks">
 								<label class="control-label"> 匿名</label>
 								<div><input type="checkbox" name="anony"  value=“1”  disabled  <#if advice.anony?? && advice.anony> checked </#if> />
-								</div>
-							</div> 
-						</div>
-						<div class="col-sm-3 ">
-							<div class="i-checks">
-								<label class="control-label"> 公开</label>
-								<div><input type="checkbox" name="pub"  value=“1”  disabled  <#if advice.pub?? && advice.pub> checked </#if> />
 								</div>
 							</div> 
 						</div>
@@ -118,9 +108,6 @@ js=['plugins/select2/select2.min.js',
                      </div>
                      </#if>
 			</div>
-		</div>
-		<div class="col-lg-6">
-			<@show_comment delete=false />
 		</div>
 	</div>
 </div>

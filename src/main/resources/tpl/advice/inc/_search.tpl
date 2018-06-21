@@ -1,6 +1,6 @@
-<#macro show_search  >
+<#macro show_search  leaddep=true brchno=true export=true>
 								<!-- search area -->
-								<form name="search-form" class="form-horizontal" action="${base}/adv/edit" method="POST">
+								<form id="search-form" name="search-form" class="form-horizontal" method="POST">
 									<div class="row">
 										<div class="form-group col-md-4">
 											<label class="col-lg-4 control-label">类型</label>
@@ -10,6 +10,7 @@
 												</select>
 											</div>
 		                                </div>
+		                                <#if leaddep?? && leaddep>
 										<div class="form-group col-md-4">
 											<label class="col-lg-4 control-label">牵头部门</label>
 										    <div class="col-lg-8 m-b-xs">
@@ -23,6 +24,7 @@
 													</select>
 											</div>
 		                                </div>
+		                                </#if>
 										<div class="form-group col-md-4">
 											<label class="col-lg-4 control-label">状态</label>
 										    <div class="col-lg-8 m-b-xs">
@@ -31,8 +33,7 @@
 												</select>
 											</div>
 		                                </div>
-		                             </div>
-		                             <div class="row">
+		                             <#if brchno?? && brchno>
 										<div class="form-group col-md-4">
 											<label class="col-lg-4 control-label">提出部门</label>
 										    <div class="col-lg-8 m-b-xs">
@@ -49,19 +50,19 @@
 													</select>
 											</div>
 		                                </div>
+		                                </#if>
 		                                <div class="form-group  col-md-4">
 	                                    	<label class="col-lg-4 control-label">关键字</label>
 	                                    	<div class="col-lg-8 m-b-xs">
 	                                    		<input type="text" name="keyword" placeholder="关键字" class="input-sm form-control">
 	                                    	</div>
 										</div>
-										<div class="form-group  col-md-4 ">
+										<div class="form-group  col-md-4">
 											<label class="col-lg-4 control-label"></label>
 											<div class="col-lg-8 m-b-xs">
 		                                    	<span class="input-group-btn">
 		                                        	<button type="button" class="btn btn-sm btn-primary" onclick="search()"> 搜索</button>
-		                                        	<button type="button" class="btn btn-sm btn-warning" onclick="exportExcel()"> 导出excel</button>
-		                                        	<button type="button" class="btn btn-sm" onclick="reset()"> 重置</button>
+		                                        	<#if  export><button type="button" class="btn btn-sm btn-warning" onclick="exportExcel()"> 导出excel</button></#if>
 		                                        </span>
 	                                        </div>
 										</div>

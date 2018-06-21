@@ -43,13 +43,13 @@ js=['plugins/iCheck/icheck.min.js',
 						</div>
 					</div>
 					<div class="row" >
-						<div class="form-group col-md-4">
+						<!-- <div class="form-group col-md-4">
 							<label class="col-sm-3 control-label">优先级</label>
 							<div class="col-sm-7">
 								<input  name="primary"  class="form-control"
 									value="${subject.primary!}"   />
 							</div>
-						</div>
+						</div> -->
 						<div class="form-group col-md-4">
 							<label class="col-sm-3 control-label">顺序</label>
 							<div class="col-sm-7">

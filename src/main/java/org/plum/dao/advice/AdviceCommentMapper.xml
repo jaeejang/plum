@@ -43,12 +43,12 @@
   </delete>
   <insert id="insert" parameterType="org.plum.model.advice.AdviceComment">
     insert into advice_comment (ID, advice_id, crttime, 
-      crtusr, title,content,crtbrch,satisfy)
+      crtusr, title,content,crtbrch)
     values (#{id,jdbcType=INTEGER}, #{adviceId,jdbcType=INTEGER}, #{crttime,jdbcType=TIMESTAMP}, 
        #{crtusr,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},
-       #{crtbrch,jdbcType=VARCHAR}, #{satisfy,jdbcType=BIT})
+       #{crtbrch,jdbcType=VARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="org.plum.model.advice.AdviceComment">
+  <update id="updateByPrimaryKey" parameterType="org.plum.model.advice.AdviceComment" useGeneratedKeys="true" >
     update advice_comment
     set advice_id = #{adviceId,jdbcType=INTEGER},
       crttime = #{crttime,jdbcType=TIMESTAMP},

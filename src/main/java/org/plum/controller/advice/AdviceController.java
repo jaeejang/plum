@@ -23,12 +23,10 @@ import org.plum.tools.ui.JsonModel;
 import org.plum.tools.ui.JsonResult;
 import org.plum.tools.ui.ObjectMap;
 import org.plum.tools.ui.ResultType;
-import org.plum.tools.ui.Utils;
 import org.plum.view.ExcelExportView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -85,6 +83,16 @@ public class AdviceController {
 		model.addAttribute("branches", systemService.loadBranch());
 		return "advice/advice_admin";
 	}
+	
+
+	@RequestMapping("/feedback")
+	public String feedback(Model model,HttpServletRequest request) {
+		//model.addAttribute("adviceBranch", adviceService.selectAdviceBranch());
+		model.addAttribute("branches", systemService.loadBranch());
+		context.setContext(request);
+		model.addAttribute("adviceBranch", context.getUser().getBrchno());
+		return "advice/advice_feedback";
+	}
 
 	@RequestMapping("/add")
 	public String add(Model model) {
@@ -113,7 +121,7 @@ public class AdviceController {
 	@Pagination
 	public @ResponseBody Paginator getList(@PathVariable String type, HttpServletRequest request) {
 		if (type.equals("all")) {
-			return new Paginator(adviceService.selectAdvice(null, request.getParameterMap()));
+			return new Paginator(adviceService.selectAdminAdvice(request.getParameterMap()));
 		} else if (type.equals("my")) {
 			context.setContext(request);
 			return new Paginator(
@@ -251,6 +259,15 @@ public class AdviceController {
 		comment.setCrtusr(context.getUser().getUsername());
 		comment.setCrtbrch(context.getUser().getBrchno());
 		adviceService.saveOrUpdateComment(comment);
+		
+		Boolean isPublic = RequestUtils.getQueryParm(request.getParameterMap(), Boolean.class, "isPublic");
+		
+		Advice advice = adviceService.getAdvice(comment.getAdviceId());
+		if(advice != null) {
+			advice.setCmttime(Calendar.getInstance().getTime());
+			advice.setPub(isPublic);
+			adviceService.saveOrUpdateAdvice(advice);
+		}
 
 		return "redirect:" + request.getHeader("Referer");
 	}
@@ -263,7 +280,7 @@ public class AdviceController {
 	public JsonModel survey(HttpServletRequest request, Model model) {
 		JsonResult result = JsonResult.createInstance();
 		int comId = RequestUtils.getQueryParm(request.getParameterMap(), Integer.class, "id");
-		boolean satisfy = RequestUtils.getQueryParm(request.getParameterMap(), Boolean.class, "satisfy");
+		Integer satisfy = RequestUtils.getQueryParm(request.getParameterMap(), Integer.class, "satisfy");
 		AdviceComment comment = adviceService.getComment(comId);
 		if (comment != null) {
 			comment.setSatisfy(satisfy);

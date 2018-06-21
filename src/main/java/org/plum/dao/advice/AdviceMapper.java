@@ -11,15 +11,11 @@ public interface AdviceMapper {
 
     int insert(Advice record);
 
-    List<Advice> selectAdviceByExampleWithPagination(
-    		@Param("catalog")Integer catalog, 
-    		@Param("leaddep")String leaddep, 
-    		@Param("status")Integer status, 
-    		@Param("brchno")String brchno, 
-    		@Param("crtusr") String crtusr,
-    		@Param("keyword")String keyword);
+    List<Advice> selectPublicAdviceWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
     
     List<Advice> selectAdviceByParamsWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
+
+    List<Advice> selectAdminAdviceByParamsWithPagination(@Param("params")Map<String,Object> params,@Param("keyword")String keyword);
 
     Advice selectByPrimaryKey(Integer id);
 

@@ -8,8 +8,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.plum.initial.PlumContext;
+import org.plum.model.advice.Advice;
+import org.plum.model.advice.AdviceComment;
+import org.plum.model.advice.FileAttach;
 import org.plum.model.advice.Subject;
 import org.plum.service.AdviceService;
+import org.plum.service.FileAttachService;
 import org.plum.service.SystemService;
 import org.plum.tools.pagination.Pagination;
 import org.plum.tools.pagination.entity.Paginator;
@@ -22,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +37,9 @@ public class TopicController {
 
 	@Autowired
 	PlumContext context;
-	
+
+	@Autowired
+	FileAttachService fileAttachService;
 	
 	@Autowired
 	SystemService systemService;
@@ -58,6 +65,7 @@ public class TopicController {
 	@RequestMapping("/show")
 	public String show(Model model) {
 		List<Subject> subjects = systemService.selectSubject(false);
+		model.addAttribute("branches", systemService.loadBranch());
 		model.addAttribute("subjects", subjects);
 		return "advice/topic_show";
 	}
@@ -72,7 +80,25 @@ public class TopicController {
 			return new Paginator(adviceService.selectPublicTopic(request.getParameterMap()));
 
 	}
-	
+
+	@RequestMapping(value = { "/view/{id}" }, method = RequestMethod.GET)
+	public String view(@PathVariable int id, Model model, HttpServletRequest request) {
+
+		Advice advice = adviceService.getAdvice(id);
+		context.setContext(request);
+		String username = context.getUser().getUsername();
+		if (advice.getStatus().intValue() == 0 && username.equals(advice.getCrtusr())) {
+			return "forward:/adv/edit/" + id;
+		}
+
+		model.addAttribute("advice", advice);
+		model.addAttribute("adviceBranch", adviceService.selectAdviceBranch());
+
+		List<FileAttach> files = fileAttachService.getFileAttach(id, 0);
+		model.addAttribute("files", files);
+
+		return "advice/topic_view";
+	}
 
 
 	@RequestMapping(value = { "/export/{type}" })

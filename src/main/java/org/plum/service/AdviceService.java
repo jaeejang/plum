@@ -90,9 +90,7 @@ public class AdviceService {
 			ret = adviceMapper.insert(toSave);
 		else
 			ret = adviceMapper.updateByPrimaryKey(toSave);
-		log.info("Advice %d saved", toSave.getId(), 2);
-		if(ret > 0)
-			PlumCache.CacheFuncs.clear();
+		log.info("Advice {} saved", toSave.getId(), 2);
 		return ret == 0 ? false : true;
 		
 	}
@@ -105,7 +103,34 @@ public class AdviceService {
 		Integer status  = RequestUtils.getQueryParm(params, Integer.class, "status");
 		
 		try {
-			return adviceMapper.selectAdviceByExampleWithPagination(catalog, leaddep, status, brchno, username, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
+			Map<String,Object>map = new LinkedHashMap<String,Object>();
+			map.put("leaddep", leaddep);
+			map.put("brchno", brchno);
+			map.put("catalog", catalog);
+			map.put("status", status);
+			if(username != null )
+				map.put("crtusr", username);
+			return adviceMapper.selectAdviceByParamsWithPagination(map, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
+	}
+	
+	
+	public List<Advice> selectAdminAdvice(Map<String,String[]> params) {
+		String leaddep  = RequestUtils.getQueryParm(params, String.class, "leaddep");
+		String brchno  = RequestUtils.getQueryParm(params, String.class, "brchno");
+		String keyword  = RequestUtils.getQueryParm(params, String.class, "keyword");
+		Integer catalog  = RequestUtils.getQueryParm(params, Integer.class, "catalog");
+		Integer status  = RequestUtils.getQueryParm(params, Integer.class, "status");
+		
+		try {
+			Map<String,Object>map = new LinkedHashMap<String,Object>();
+			map.put("leaddep", leaddep);
+			map.put("brchno", brchno);
+			map.put("catalog", catalog);
+			map.put("status", status);
+			return adviceMapper.selectAdminAdviceByParamsWithPagination(map, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
@@ -117,14 +142,12 @@ public class AdviceService {
 		String brchno  = RequestUtils.getQueryParm(params, String.class, "brchno");
 		String keyword  = RequestUtils.getQueryParm(params, String.class, "keyword");
 		Integer catalog  = RequestUtils.getQueryParm(params, Integer.class, "catalog");
-		//Integer status  = RequestUtils.getQueryParm(params, Integer.class, "status");
 		try {
 			Map<String,Object>map = new LinkedHashMap<String,Object>();
 			map.put("leaddep", leaddep);
 			map.put("brchno", brchno);
 			map.put("catalog", catalog);
-			map.put("status", 1);
-			return adviceMapper.selectAdviceByParamsWithPagination(map, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
+			return adviceMapper.selectPublicAdviceWithPagination(map, keyword !=null ? URLDecoder.decode(keyword,"utf-8").trim():"");
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
@@ -133,7 +156,7 @@ public class AdviceService {
 	public int deleteAdvice(int adviceid) {
 		int ret = adviceMapper.deleteByPrimaryKey(adviceid);
 
-		log.info("Advice %d deleted, $d row(s) affected",  adviceid,ret);
+		log.info("Advice {} deleted, $d row(s) affected",  adviceid,ret);
 		return ret;
 	}
 	
@@ -175,14 +198,12 @@ public class AdviceService {
 			if(coment.getAdviceId() != null && advice!=null ){
 				advice.setStatus(2);
 				adviceMapper.updateByPrimaryKey(advice);
-				log.info("Advice %d change Status %d", coment.getAdviceId(), 2);
+				log.info("Advice {} change Status {}", coment.getAdviceId(), 2);
 			}
 		}
 		else {
 			ret = adviceCommentMapper.updateByPrimaryKey(coment);
 		}
-		if(ret > 0)
-			PlumCache.CacheFuncs.clear();
 		return ret == 0 ? false : true;
 	}
 	

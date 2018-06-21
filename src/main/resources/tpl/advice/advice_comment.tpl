@@ -3,9 +3,12 @@
 <#include "inc/_poll.tpl" />
 <@page title="建议反馈" css=['plugins/summernote/summernote.css',
 "plugins/iCheck/custom.css",
-'plugins/select2/select2.min.css']
+'plugins/select2/select2.min.css',
+"plugins/switchery/switchery.css",
+"awesome-bootstrap-checkbox.css"]
 js=['plugins/select2/select2.min.js',
 'plugins/iCheck/icheck.min.js',
+"plugins/switchery/switchery.js",
 'plugins/summernote/summernote.min.js',
 'plugins/summernote/summernote-zh-CN.js'] >
 <div class="wrapper wrapper-content ">
@@ -31,6 +34,13 @@ js=['plugins/select2/select2.min.js',
 							<div class="i-checks">
 								<label class="control-label"> 匿名</label>
 								<div><input type="checkbox" name="anony"  value=“1”  disabled  <#if advice.anony?? && advice.anony> checked </#if> />
+								</div>
+							</div> 
+						</div>
+						<div class="col-sm-3 ">
+							<div class="i-checks">
+								<label class="control-label"> 公开</label>
+								<div><input type="checkbox" name="pub"  value=“1”  disabled  <#if advice.pub?? && advice.pub> checked </#if> />
 								</div>
 							</div> 
 						</div>
@@ -69,7 +79,12 @@ js=['plugins/select2/select2.min.js',
 										${advice.content!}
 									</div>
 									<div class="panel-footer">
-											<div class="clearfix"><div class="pull-left">发表人：${advice.crtusrna!}  </div><div class="pull-right"> 发表时间：${advice.crttime?string["yyyy.MM.dd, HH:mm"]} </div></div>
+											<div class="clearfix"><div class="pull-left">发表人：
+											<#if advice.anony?? && advice.anony>
+											匿名
+											<#else>
+											${advice.crtusrna!} 
+											</#if> </div><div class="pull-right"> 发表时间：${advice.crttime?string["yyyy.MM.dd, HH:mm"]} </div></div>
 									</div>
 								</div>
 							</div>
@@ -132,7 +147,10 @@ js=['plugins/select2/select2.min.js',
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-offset-10 col-md-2">
+							<div class="col-md-10">
+								<input type="checkbox" class="i-checks" name="isPublic" value="true"  checked />  是否公开
+							</div>
+							<div class="col-md-2">
 								<button type="submit" class="btn btn-info">反馈</button>
 							</div>
 						</div>
@@ -145,6 +163,8 @@ js=['plugins/select2/select2.min.js',
   </div>
 <script type="text/javascript">
 function jsonpCallback(data) {
+		var elem = document.querySelector('.js-switch');
+	    var switchery = new Switchery(elem, { color: '#1AB394' });
 		$.each(data, function(i, n) {
 			if (n.type == "advice_catalog") {
 				$('select[name="catalog"]').append(new Option(n.name, n.code, false, false));

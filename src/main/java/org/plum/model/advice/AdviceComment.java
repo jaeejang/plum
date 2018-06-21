@@ -20,7 +20,7 @@ public class AdviceComment {
 	
 	private String crtbrna;
 	
-	private Boolean satisfy;
+	private Integer satisfy;
 
 	
 
@@ -89,11 +89,11 @@ public class AdviceComment {
 		this.crtbrna = crtbrna;
 	}
 
-	public Boolean getSatisfy() {
+	public Integer getSatisfy() {
 		return satisfy;
 	}
 
-	public void setSatisfy(Boolean satisfy) {
+	public void setSatisfy(Integer satisfy) {
 		this.satisfy = satisfy;
 	}
 }

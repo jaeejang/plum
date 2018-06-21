@@ -36,20 +36,24 @@
 	                                    	    <div>反馈部门：${comm.crtbrna!}</div> 
 	                                    	</div>
 		                                    <div class="pull-left">
-	                                    		<#if comm.satisfy?? == false && _user.username == advice.crtusr>
-		                                    	<span>
-		                                    		<a class="btn btn-circle btn-primary" data-src="${comm.id!}"  data-value="true" href="javascript:void(0)" onclick="survey(this)"><i class="fa fa-check "></i></a>
-		                                    		<i class="fa fa-smile-o fa-2x hidden"></i>
-		                                    	</span>
-		                                    	<span>
-		                                    		<a class="btn btn-circle btn-danger"  data-src="${comm.id!}"   data-value="false" href="javascript:void(0)" onclick="survey(this)"><i class="fa fa-times "></i></a>
-		                                    		<i class="fa fa-frown-o fa-2x hidden"></i>
-		                                    	</span>
-			                                    <#elseif comm.satisfy>
-			                                    	<i class="fa fa-smile-o fa-2x "></i>
-			                                    <#else>
-			                                    	<i class="fa fa-frown-o fa-2x "></i>
-			                                    </#if>
+			                                    <div class="radio radio-info radio-inline">
+		                                            <input type="radio" id="inlineRadio1_${comm.id}" value="1" data-src="${comm.id}" name="satisfy${comm.id}" 
+		                                            <#if comm.satisfy?? && comm.satisfy==1>checked</#if>
+		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <label for="inlineRadio1"> 满意 </label>
+		                                        </div>
+		                                        <div class="radio radio-inline">
+		                                            <input type="radio" id="inlineRadio2_${comm.id}" value="0" data-src="${comm.id}"  name="satisfy${comm.id}"
+		                                            <#if comm.satisfy?? && comm.satisfy==0>checked</#if>
+		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <label for="inlineRadio2"> 一般 </label>
+		                                        </div>
+		                                        <div class="radio radio-warning radio-inline">
+		                                            <input type="radio" id="inlineRadio3_${comm.id}" value="-1" data-src="${comm.id}"  name="satisfy${comm.id}"
+		                                            <#if comm.satisfy?? && comm.satisfy==-1>checked</#if>
+		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <label for="inlineRadio3"> 不满意 </label>
+		                                        </div>
 		                                    </div>
 		                                  </div>
 	                                    </div>
@@ -64,7 +68,7 @@
 		</div>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			$(".panel-info").on('close.bs.alert',function(){
+			$("#accordion .panel").on('close.bs.alert',function(){
 				var panel = $(this);
 				$.ajax({
 					url:'${base}/adv/delComment/' + panel.attr("id").substr(5),
@@ -77,23 +81,24 @@
 	       		 });
 				return false;
 			});
+			$(".radio-inline input:radio").on('click',function(){
+				var name = $(this).attr("name");
+				var value = $('input[name=' +name +']:checked').val();
+				jQuery.post(
+						'${base}/adv/survey',
+						{
+							id : $(this).attr("data-src"),
+							satisfy: value
+						},
+						function(data){
+							if(data.type == "success"){
+								//TODO
+								$('input[name=' +name +']').attr("disabled","disabled");
+							}
+						}		
+					);
+			})
 		});
 
-		function survey(obj){
-			jQuery.post(
-				'${base}/adv/survey',
-				{
-					id : $(obj).attr("data-src"),
-					satisfy: $(obj).attr("data-value")
-				},
-				function(data){
-					if(data.type == "success"){
-						//TODO
-						$(obj).siblings().toggleClass('hidden');
-						$(obj).parents(".pull-left").find('.btn-circle').toggleClass('hidden');
-					}
-				}		
-			);
-		}
 		</script>
 </#macro>
