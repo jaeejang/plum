@@ -58,10 +58,8 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 										</div>
 									</div>
 								</from>
-					<div class="table-responsive">
 						    <table id="jqGrid"></table>
 						    <div id="jqGridPager"></div>
-					    </div>
 				</div>
 			</div>
 		</div>

@@ -63,9 +63,9 @@ js=['plugins/iCheck/icheck.min.js',
 								<select name="brchno" class="form-control chosen-select" >
 									<#if branches??>
 										<#list branches as branch>
-												<option value="${branch.brchno}" class="select2-results__group"  <#if branch.brchno == user.brchno>selected</#if>>${branch.brchna}(${branch.brchno})</option>
+												<option value="${branch.brchno}" class="select2-results__group"  <#if user.brchno?? &&  branch.brchno == user.brchno>selected</#if>>${branch.brchna}(${branch.brchno})</option>
 												<#list branch.children as child>
-													<option value="${child.brchno}" class="select2-results__option" <#if child.brchno == user.brchno>selected</#if>>${child.brchna}(${child.brchno})</option>
+													<option value="${child.brchno}" class="select2-results__option" <#if user.brchno?? && child.brchno == user.brchno>selected</#if>>${child.brchna}(${child.brchno})</option>
 												</#list>
 										</#list>
 									</#if>

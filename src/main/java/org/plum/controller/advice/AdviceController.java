@@ -190,19 +190,19 @@ public class AdviceController {
 	@RequestMapping(value = { "/edit" }, method = RequestMethod.POST)
 	public String save(@ModelAttribute("advice") Advice advice, Model model, HttpServletRequest request) {
 		boolean added = false;
-		if (advice.getId() == null || advice.getId() == 0)
+		if (advice.getId() == null || advice.getId() == 0) {
 			added = true;
-
-		advice.setCrtusr(context.getUser().getUsername());
-		advice.setBrchno(context.getUser().getBrchno());
-		advice.setCrttime(Calendar.getInstance().getTime());
+			advice.setCrtusr(context.getUser().getUsername());
+			advice.setBrchno(context.getUser().getBrchno());
+			advice.setCrttime(Calendar.getInstance().getTime());
+		}
 		// advice.setStatus(1);
 		adviceService.saveOrUpdateAdvice(advice);
 
-		if (added && advice.getStatus() == 0)
+		if (advice.getStatus() == 0)
 			return "redirect:/adv/edit/" + advice.getId();
 		else
-			return "redirect:" + request.getHeader("Referer");
+			return "redirect:/adv/my";
 	}
 
 	/*

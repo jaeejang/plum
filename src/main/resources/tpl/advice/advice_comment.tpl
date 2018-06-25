@@ -186,7 +186,7 @@ function jsonpCallback(data) {
 			height: 100,
 			toolbar: [
 			   // [groupName, [list of button]]
-			   ['style', ['bold', 'italic', 'underline', 'clear','strikethrough', 'superscript', 'subscript','height']],
+			   ['style', ['bold', 'italic', 'underline', 'clear']],
 			   ['fontsize', ['fontsize','color']],
 			   ['para', ['ul', 'ol', 'paragraph']]
 			]

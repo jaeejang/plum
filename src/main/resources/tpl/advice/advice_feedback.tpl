@@ -66,7 +66,6 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 		                                    	<span class="input-group-btn">
 		                                        	<button type="button" class="btn btn-sm btn-primary" onclick="search()"> 搜索</button>
 		                                        	<button type="button" class="btn btn-sm btn-warning" onclick="exportExcel()"> 导出excel</button>
-		                                        	<button type="button" class="btn btn-sm" onclick="reset()"> 重置</button>
 		                                        </span>
 	                                        </div>
 										</div>
@@ -75,10 +74,8 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 								<script type="text/javascript">								
 								
 								</script>
-					<div class="table-responsive">
 						    <table id="jqGrid"></table>
 						    <div id="jqGridPager"></div>
-					    </div>
 				</div>
 			</div>
 		</div>
@@ -208,7 +205,7 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 			postData : {
 				'keyword' : encodeURI($("input[name='keyword']").val()),
 				'brchno' : encodeURI($("select[name='brchno']").val()),
-				'leaddep' : encodeURI($("select[name='leaddep']").val()),
+				'leaddep' : encodeURI($("input[name='leaddep']").val()),
 				'catalog' : encodeURI($("select[name='catalog']").val()),
 				'status' : encodeURI($("select[name='status']").val())
 			}
@@ -218,7 +215,7 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 		   var params =  {
 					'keyword' : encodeURI($("input[name='keyword']").val()),
 					'brchno' : encodeURI($("select[name='brchno']").val()),
-					'leaddep' : encodeURI($("select[name='leaddep']").val()),
+					'leaddep' : encodeURI($("input[name='leaddep']").val()),
 					'catalog' : encodeURI($("select[name='catalog']").val()),
 					'status' : encodeURI($("select[name='status']").val())
 				};

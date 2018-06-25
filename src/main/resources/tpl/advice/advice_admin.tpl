@@ -18,10 +18,8 @@ css=["plugins/jqGrid/ui.jqgrid-bootstrap.css",
 				</div>
 				<div class="ibox-content">
 								<@show_search />
-					<div class="table-responsive">
 						    <table id="jqGrid"></table>
 						    <div id="jqGridPager"></div>
-					    </div>
 				</div>
 			</div>
 		</div>

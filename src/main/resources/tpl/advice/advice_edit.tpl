@@ -6,6 +6,8 @@
 "plugins/fileupload/jquery.fileupload-ui.css",
 "plugins/switchery/switchery.css"]
 js=[
+"plugins/jQueryUI/jquery-ui.min.js",
+"plugins/fileupload/tmpl.min.js",
 'plugins/summernote/summernote.min.js',
 'plugins/summernote/summernote-zh-CN.js',
 'plugins/select2/select2.min.js',
@@ -13,8 +15,6 @@ js=[
 "plugins/switchery/switchery.js"
 'plugins/validate/jquery.validate.js',
 "plugins/validate/messages_zh.min.js",
-"plugins/jQueryUI/jquery-ui.min.js",
-"plugins/fileupload/tmpl.min.js",
 "plugins/fileupload/jquery.iframe-transport.js",
 "plugins/fileupload/jquery.fileupload.js",
 "plugins/fileupload/jquery.fileupload-process.js",
@@ -43,6 +43,8 @@ js=[
                             <form id="form1" method="POST" class="form-horizontal" action="${base}/adv/edit">
 								<input type="hidden" name="id" value="${advice.id!}" />  
 								<input type="hidden" name="status" value="${advice.status!}" />
+								<input type="hidden" name="crtusr" value="${advice.crtusr!}" />
+								<input type="hidden" name="brchno" value="${advice.brchno!}" />
 								<input type="hidden" name="files" value=""  />
 								<div class="row">
 									<div class="form-group col-md-6" >
@@ -53,7 +55,7 @@ js=[
 										<label class="col-sm-4 control-label">选择专题</label>
 										<div class="col-sm-7">
 											<select  name="subject" class="form-control chosen-select"
-												value="${advice.subject!}" required>
+												value="${advice.subject!}" >
 													<option></option>
 													<#if subjects??>
 														<#list subjects as subject>
@@ -69,7 +71,7 @@ js=[
 										<label class="col-sm-4 control-label">建议类别</label>
 										<div class="col-sm-7">
 											<select type="text" name="catalog" class="form-control chosen-select"
-												value="${advice.catalog!}" >
+												value="${advice.catalog!}"  required>
 											 	<option></option>
 											</select>
 										</div>
@@ -77,7 +79,7 @@ js=[
 									<div class="form-group col-md-6">
 										<label class="col-sm-4 control-label">建议牵头部门</label>
 										<div class="col-sm-7">
-											<select type="text" name="leaddep" class="form-control chosen-select" >
+											<select type="text" name="leaddep" class="form-control chosen-select"  required>
 													<option></option>
 													<#if adviceBranch??>
 														<#list adviceBranch as d>
@@ -105,7 +107,7 @@ js=[
 								<div class="row">
 									<div class="form-group">
 											<label class="col-sm-2 control-label">内容</label>
-											<div class="col-sm-9 m-b-xs">
+											<div class="col-sm-9 m-b-xs ">
 												<textarea name="content" id="summernote" >${advice.content!}</textarea>
 											</div>
 										</div>
@@ -250,10 +252,23 @@ js=[
 {% } %}
 </script>
 <script type="text/javascript">
+
 function jsonpCallback(data) {
+		$('#summernote').summernote({
+			lang: 'zh-CN',
+			height: 250,  
+			toolbar: [
+			    ['style', ['style','bold', 'italic', 'underline', 'clear']],
+			    ['para', ['ul', 'ol', 'paragraph']],
+			    ['height', ['fontsize','height']]
+			  ],
+	            onInit : function(){
+	                $('.note-editor [data-name="ul"]').tooltip('disable'); 
+	            }
+		});
 		var elem = document.querySelector('.js-switch');
 	    var switchery = new Switchery(elem, { color: '#1AB394' });
-	    $('#form1').validate({});
+	    $('#form1').validate({ignore: ".note-editor *"});
 	    elem.onchange = function() {
 	    	if(elem.checked){
 	    		$('#commDiv').toggleClass('hidden');
@@ -261,12 +276,15 @@ function jsonpCallback(data) {
 	    		$("select[name=subject]").rules("add",{required:true});
 	    		$("select[name=leaddep]").rules("remove");
 	    		$("select[name=catalog]").rules("remove");
+	    		//$("select[name=catalog]").val('').change();
+	    		//$("select[name=leaddep]").val('').change();
 	    	}else{
 	    		$('#subDiv').toggleClass('hidden');
 	    		$('#commDiv').toggleClass('hidden');
-		    		$("select[name=subject]").rules("remove");
-		    		$("select[name=leaddep]").rules("add",{required:true});
-		    		$("select[name=catalog]").rules("add",{required:true});
+	    		$("select[name=subject]").rules("remove");
+	    		$("select[name=leaddep]").rules("add",{required:true});
+	    		$("select[name=catalog]").rules("add",{required:true});
+	    		$("select[name=subject]").val('').change();
 	    	}
 	    };
 
@@ -293,19 +311,6 @@ function jsonpCallback(data) {
 			width: "100%"
 		});
 		$('.i-checks').iCheck({checkboxClass: 'icheckbox_square-green'});
-		$('#summernote').summernote({
-			lang: 'zh-CN',
-			height: 150,
-			toolbar: [
-			   // [groupName, [list of button]]
-			   ['style', ['bold', 'italic', 'underline', 'clear']],
-			   ['font', ['strikethrough', 'superscript', 'subscript']],
-			   ['fontsize', ['fontsize']],
-			   ['color', ['color']],
-			   ['para', ['ul', 'ol', 'paragraph']],
-			   ['height', ['height']]
-			]
-		});
 	    $('#fileupload').fileupload({
 	    	acceptFileTypes: /(\.|\/)(gif|jpe?g|png|docx?|xlsx?|pdf)$/i,
 	    	maxFileSize: 10 * 1024 * 1024,

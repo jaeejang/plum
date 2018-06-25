@@ -3,7 +3,8 @@
 <#include "inc/_poll.tpl" />
 <@page title="创新建议" css=['plugins/summernote/summernote.css',
 "plugins/iCheck/custom.css",
-'plugins/select2/select2.min.css']
+'plugins/select2/select2.min.css',
+"awesome-bootstrap-checkbox.css"]
 js=['plugins/select2/select2.min.js',
 'plugins/iCheck/icheck.min.js',
 'plugins/summernote/summernote.min.js',

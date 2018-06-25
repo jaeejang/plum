@@ -13,9 +13,10 @@
                   </div>
 			</div>
 			<div class="ibox-content">
-				<#if (advice.anony=false ||  advice.crtusr == _user.username) && commets?? && (commets?size > 0)>
+				<#if  commets?? && (commets?size > 0)>
 						<div class="panel-group" id="accordion">
 							<#list commets as comm>
+								<#if advice.anony=false ||  advice.crtusr == _user.username ||  comm.crtusr == _user.username>
 								<div class="panel  panel-${label[comm?index%6]}" id="panel${comm.id}">
 	                                 <div class="panel-heading">
 	                                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse${comm.id}">${comm.title[0..*30]}</a>
@@ -39,19 +40,19 @@
 			                                    <div class="radio radio-info radio-inline">
 		                                            <input type="radio" id="inlineRadio1_${comm.id}" value="1" data-src="${comm.id}" name="satisfy${comm.id}" 
 		                                            <#if comm.satisfy?? && comm.satisfy==1>checked</#if>
-		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <#if comm.satisfy?? ||  advice.crtusr != _user.username>disabled</#if>>
 		                                            <label for="inlineRadio1"> 满意 </label>
 		                                        </div>
 		                                        <div class="radio radio-inline">
 		                                            <input type="radio" id="inlineRadio2_${comm.id}" value="0" data-src="${comm.id}"  name="satisfy${comm.id}"
 		                                            <#if comm.satisfy?? && comm.satisfy==0>checked</#if>
-		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <#if comm.satisfy?? ||  advice.crtusr != _user.username>disabled</#if>>
 		                                            <label for="inlineRadio2"> 一般 </label>
 		                                        </div>
 		                                        <div class="radio radio-warning radio-inline">
 		                                            <input type="radio" id="inlineRadio3_${comm.id}" value="-1" data-src="${comm.id}"  name="satisfy${comm.id}"
 		                                            <#if comm.satisfy?? && comm.satisfy==-1>checked</#if>
-		                                            <#if comm.satisfy??>disabled</#if>>
+		                                            <#if comm.satisfy?? ||  advice.crtusr != _user.username>disabled</#if>>
 		                                            <label for="inlineRadio3"> 不满意 </label>
 		                                        </div>
 		                                    </div>
@@ -59,6 +60,7 @@
 	                                    </div>
 	                                </div>
 	                            </div>
+	                          </#if>
 							</#list>
 						</div>
 				<#else>
